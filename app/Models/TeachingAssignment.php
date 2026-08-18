@@ -80,6 +80,14 @@ class TeachingAssignment extends Model
     }
 
     /**
+     * Get the activities registered for this teaching assignment.
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    /**
      * Scope query to active teaching assignments.
      */
     public function scopeActive(Builder $query): Builder

@@ -39,31 +39,62 @@
     </div>
 </div>
 
-<!-- Partials Status Overview Card -->
+<!-- Partials Status & Activities Overview Card -->
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-header bg-white py-3 border-0">
         <h5 class="card-title fw-bold mb-0 text-primary">
-            <i class="bi bi-calendar-range me-2"></i> Estructura de Parciales y Estados de Publicación
+            <i class="bi bi-calendar-range me-2"></i> Estructura de Parciales y Actividades Evaluativas
         </h5>
     </div>
     <div class="card-body">
-        <div class="row g-3">
+        <div class="row g-4">
             @forelse($assignment->partialPublications->sortBy(fn($p) => $p->partial->number) as $pub)
+                @php
+                    $sum = $partialSummaries[$pub->partial_id] ?? null;
+                @endphp
                 <div class="col-12 col-md-6">
-                    <div class="p-3 bg-light rounded-3 border">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-dark fs-6">
-                                {{ $pub->partial?->name ?? 'Parcial '.$loop->iteration }} (P{{ $pub->partial?->number }})
-                            </span>
-                            <span class="badge bg-primary fs-7">
-                                Peso: {{ number_format($pub->partial?->weight ?? 50, 0) }}%
-                            </span>
+                    <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-bold text-dark fs-6">
+                                    {{ $pub->partial?->name ?? 'Parcial '.$loop->iteration }} (P{{ $pub->partial?->number }})
+                                </span>
+                                <span class="badge bg-primary fs-7">
+                                    Peso: {{ number_format($pub->partial?->weight ?? 50, 0) }}%
+                                </span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted fs-7">Estado de Publicación:</span>
+                                <span class="badge {{ $pub->status->badgeClass() }} px-3 py-1 fs-7">
+                                    {{ $pub->status->label() }}
+                                </span>
+                            </div>
+
+                            @if($sum)
+                                <div class="p-2 bg-white rounded border mb-3 fs-7">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Ponderación Activa:</span>
+                                        <span class="fw-bold">{{ $sum['total_percentage'] }}% / 100.00%</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Estado de Carga:</span>
+                                        <span class="badge {{ $sum['badge_class'] }} fs-8">{{ $sum['weighted_status_label'] }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Actividades Registradas:</span>
+                                        <span><strong>{{ $sum['active_count'] }}</strong> activas</span>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted fs-7">Estado de Publicación:</span>
-                            <span class="badge {{ $pub->status->badgeClass() }} px-3 py-2 fs-7">
-                                {{ $pub->status->label() }}
-                            </span>
+
+                        <div class="pt-2 border-top text-end">
+                            @if(Auth::id() === $assignment->teacher_id)
+                                <a href="{{ route('teacher.assignments.partials.activities.index', [$assignment, $pub->partial]) }}" class="btn btn-sm btn-primary w-100">
+                                    <i class="bi bi-list-task me-1"></i> Gestionar actividades
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

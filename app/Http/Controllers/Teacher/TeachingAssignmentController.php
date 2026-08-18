@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\TeachingAssignment;
+use App\Services\Grades\ActivityService;
 use App\Services\Grades\PartialPublicationStateService;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,7 @@ class TeachingAssignmentController extends Controller
     }
 
     /**
-     * Display details of a specific teaching assignment and active enrolled students.
+     * Display details of a specific teaching assignment, partial activity summaries, and active enrolled students.
      */
     public function show(TeachingAssignment $assignment)
     {
@@ -53,6 +54,15 @@ class TeachingAssignmentController extends Controller
         if ($assignment->partialPublications->isEmpty()) {
             app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
             $assignment->load('partialPublications.partial');
+        }
+
+        $activityService = app(ActivityService::class);
+        $partialSummaries = [];
+
+        foreach ($assignment->partialPublications->sortBy(fn ($p) => $p->partial->number) as $pub) {
+            if ($pub->partial) {
+                $partialSummaries[$pub->partial->id] = $activityService->getSummary($assignment, $pub->partial);
+            }
         }
 
         // Load active enrolled students for the assignment's course & period
@@ -67,6 +77,6 @@ class TeachingAssignmentController extends Controller
             ->pluck('student')
             ->sortBy('name');
 
-        return view('teacher.assignments.show', compact('assignment', 'students'));
+        return view('teacher.assignments.show', compact('assignment', 'students', 'partialSummaries'));
     }
 }

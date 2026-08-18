@@ -64,6 +64,11 @@
                                     <i class="bi bi-card-checklist me-1"></i> Estados de Parciales
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.activities.*') ? 'active' : '' }}" href="{{ route('admin.activities.index') }}">
+                                    <i class="bi bi-list-task me-1"></i> Actividades
+                                </a>
+                            </li>
                         @elseif(Auth::user()->isTeacher())
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}" href="{{ route('teacher.dashboard') }}">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AcademicPeriodController;
+use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Admin\TeachingAssignmentController as AdminTeachingAssi
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
+use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Teacher\TeachingAssignmentController as TeacherTeachingAssignmentController;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +85,9 @@ Route::middleware(['auth', 'active'])->group(function () {
 
         // Partial Publications View (Read-Only)
         Route::get('/partial-publications', [PartialPublicationController::class, 'index'])->name('partial-publications.index');
+
+        // Activities Monitoring (Read-Only)
+        Route::get('/activities', [AdminActivityController::class, 'index'])->name('activities.index');
     });
 
     // Teacher Area
@@ -90,6 +95,14 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
         Route::get('/assignments', [TeacherTeachingAssignmentController::class, 'index'])->name('assignments.index');
         Route::get('/assignments/{assignment}', [TeacherTeachingAssignmentController::class, 'show'])->name('assignments.show');
+
+        // Activities Management per Assignment & Partial
+        Route::get('/assignments/{assignment}/partials/{partial}/activities', [TeacherActivityController::class, 'index'])->name('assignments.partials.activities.index');
+        Route::get('/assignments/{assignment}/partials/{partial}/activities/create', [TeacherActivityController::class, 'create'])->name('assignments.partials.activities.create');
+        Route::post('/assignments/{assignment}/partials/{partial}/activities', [TeacherActivityController::class, 'store'])->name('assignments.partials.activities.store');
+        Route::get('/activities/{activity}/edit', [TeacherActivityController::class, 'edit'])->name('activities.edit');
+        Route::put('/activities/{activity}', [TeacherActivityController::class, 'update'])->name('activities.update');
+        Route::patch('/activities/{activity}/toggle-status', [TeacherActivityController::class, 'toggleStatus'])->name('activities.toggle-status');
     });
 
     // Student Area

@@ -53,4 +53,12 @@ class Partial extends Model
     {
         return $this->hasMany(PartialPublication::class);
     }
+
+    /**
+     * Get the activities associated with this partial.
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
 }
