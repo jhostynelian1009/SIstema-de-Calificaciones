@@ -49,10 +49,25 @@
                                     <i class="bi bi-calendar3 me-1"></i> Períodos
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.enrollments.*') ? 'active' : '' }}" href="{{ route('admin.enrollments.index') }}">
+                                    <i class="bi bi-person-badge me-1"></i> Matrículas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.teaching-assignments.*') ? 'active' : '' }}" href="{{ route('admin.teaching-assignments.index') }}">
+                                    <i class="bi bi-person-workspace me-1"></i> Asignaciones
+                                </a>
+                            </li>
                         @elseif(Auth::user()->isTeacher())
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}" href="{{ route('teacher.dashboard') }}">
-                                    <i class="bi bi-journal-text me-1"></i> Panel Docente
+                                    <i class="bi bi-speedometer2 me-1"></i> Panel Docente
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('teacher.assignments.*') ? 'active' : '' }}" href="{{ route('teacher.assignments.index') }}">
+                                    <i class="bi bi-journal-bookmark me-1"></i> Mis Asignaciones
                                 </a>
                             </li>
                         @elseif(Auth::user()->isStudent())

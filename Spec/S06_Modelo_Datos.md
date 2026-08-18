@@ -10,7 +10,7 @@
 | `academic_periods` | id, name, starts_at, ends_at, active | fechas válidas; máximo uno activo |
 | `partials` | id, academic_period_id, number, name, weight | único período+número; número 1 o 2; weight 50.00 |
 | `enrollments` | id, student_id, course_id, academic_period_id, active | único estudiante+período |
-| `teaching_assignments` | id, teacher_id, course_id, subject_id, academic_period_id, active | combinación única |
+| `teaching_assignments` | id, teacher_id, course_id, subject_id, academic_period_id, active | único curso+asignatura+período |
 | `activities` | id, teaching_assignment_id, partial_id, name, description, due_date, percentage, active | percentage decimal(5,2) |
 | `grades` | id, activity_id, student_id, score, observation, graded_by, graded_at | único actividad+estudiante; score decimal(4,2) |
 | `partial_publications` | id, teaching_assignment_id, partial_id, status, published_by, published_at, reopened_by, reopened_at, reopen_reason | único asignación+parcial |
@@ -38,7 +38,7 @@
 
 - `enrollments(student_id, academic_period_id)` único.
 - `enrollments(course_id, academic_period_id, active)` de consulta.
-- `teaching_assignments(teacher_id, course_id, subject_id, academic_period_id)` único.
+- `teaching_assignments(course_id, subject_id, academic_period_id)` único.
 - `activities(teaching_assignment_id, partial_id, active)`.
 - `grades(activity_id, student_id)` único.
 - `partial_publications(teaching_assignment_id, partial_id)` único.

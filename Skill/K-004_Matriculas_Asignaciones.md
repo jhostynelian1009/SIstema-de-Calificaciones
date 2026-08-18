@@ -13,7 +13,7 @@ Leer RF-012 a RF-017 de `S03`, `S02`, `S05`, `S06`, CU-03/CU-04 de `S07` y CA-00
 1. Crea `Enrollment` y `TeachingAssignment` con migraciones, relaciones e índices compuestos.
 2. Restringe matrícula a usuarios `student` activos y asignación a usuarios `teacher` activos.
 3. Garantiza una sola matrícula por estudiante y período.
-4. Garantiza unicidad docente–curso–asignatura–período.
+4. Garantiza unicidad por curso–asignatura–período (un solo docente responsable por combinación).
 5. Implementa CRUD administrativo con filtros por período, curso, asignatura, docente y estado.
 6. Antes de desactivar, muestra el impacto; conserva registros históricos.
 7. Implementa scope `assignedTo($teacher)` y Policy para impedir acceso horizontal.

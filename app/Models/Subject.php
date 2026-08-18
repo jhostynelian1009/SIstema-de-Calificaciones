@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\SubjectFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
 {
@@ -41,5 +42,13 @@ class Subject extends Model
     public function setCodeAttribute($value): void
     {
         $this->attributes['code'] = strtoupper(trim($value));
+    }
+
+    /**
+     * Get teaching assignments for this subject.
+     */
+    public function teachingAssignments(): HasMany
+    {
+        return $this->hasMany(TeachingAssignment::class);
     }
 }

@@ -28,11 +28,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Teacher
+        // Teacher 1
         User::updateOrCreate(
             ['email' => 'docente@calificaciones.local'],
             [
-                'name' => 'Docente Demo',
+                'name' => 'Docente Demo 1',
                 'password' => $passwordHash,
                 'role' => UserRole::Teacher,
                 'active' => true,
@@ -40,7 +40,42 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Student
+        // Teacher 2
+        User::updateOrCreate(
+            ['email' => 'docente2@calificaciones.local'],
+            [
+                'name' => 'Docente Demo 2',
+                'password' => $passwordHash,
+                'role' => UserRole::Teacher,
+                'active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Active Students (1 to 6)
+        $studentNames = [
+            1 => 'Carlos Andrade',
+            2 => 'María Beltrán',
+            3 => 'David Cárdenas',
+            4 => 'Elena Delgado',
+            5 => 'Fernando Espinoza',
+            6 => 'Gabriela Flores',
+        ];
+
+        foreach ($studentNames as $i => $name) {
+            User::updateOrCreate(
+                ['email' => "estudiante{$i}@calificaciones.local"],
+                [
+                    'name' => $name,
+                    'password' => $passwordHash,
+                    'role' => UserRole::Student,
+                    'active' => true,
+                    'email_verified_at' => now(),
+                ]
+            );
+        }
+
+        // Backward compatibility alias for 'estudiante@calificaciones.local' used in K-002 tests
         User::updateOrCreate(
             ['email' => 'estudiante@calificaciones.local'],
             [
@@ -69,6 +104,8 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             SubjectSeeder::class,
             AcademicPeriodSeeder::class,
+            EnrollmentSeeder::class,
+            TeachingAssignmentSeeder::class,
         ]);
     }
 }

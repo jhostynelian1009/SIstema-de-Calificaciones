@@ -11,7 +11,7 @@
 
 - **CA-005:** al crear un período se crean P1 y P2, cada uno con peso 50.00.
 - **CA-006:** el sistema rechaza una segunda matrícula del mismo estudiante en el mismo período.
-- **CA-007:** una asignación duplicada de docente–curso–asignatura–período es rechazada.
+- **CA-007:** una asignación duplicada para la combinación curso–asignatura–período es rechazada; el cambio de docente actualiza la asignación existente.
 - **CA-008:** una entidad académica con historial no puede eliminarse destruyendo calificaciones.
 
 ## Actividades y notas

@@ -5,7 +5,7 @@
 - **RN-001:** un período académico contiene exactamente dos parciales: `P1` y `P2`.
 - **RN-002:** cada parcial representa el 50 % del promedio final.
 - **RN-003:** un estudiante puede tener una sola matrícula activa por período.
-- **RN-004:** una asignación docente identifica de forma única docente, curso, asignatura y período.
+- **RN-004:** una asignación docente identifica de forma única la combinación curso, asignatura y período académico; cada combinación tiene un único docente responsable.
 - **RN-005:** solo usuarios activos participan en nuevas asignaciones o matrículas.
 
 ## Actividades y porcentajes

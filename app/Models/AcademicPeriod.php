@@ -45,4 +45,20 @@ class AcademicPeriod extends Model
     {
         return $this->hasMany(Partial::class)->orderBy('number');
     }
+
+    /**
+     * Get enrollments for this academic period.
+     */
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    /**
+     * Get teaching assignments for this academic period.
+     */
+    public function teachingAssignments(): HasMany
+    {
+        return $this->hasMany(TeachingAssignment::class);
+    }
 }

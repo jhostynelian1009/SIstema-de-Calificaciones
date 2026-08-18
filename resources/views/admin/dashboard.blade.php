@@ -25,82 +25,103 @@
 
 <!-- Metric Cards -->
 <div class="row g-3 mb-4">
-    <div class="col-12 col-sm-6 col-lg-3">
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
         <div class="card shadow-sm border-0 rounded-3 h-100 bg-white">
-            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div class="card-body p-3 d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted fs-7 d-block mb-1">Cursos Registrados</span>
-                    <h3 class="fw-bold mb-0 text-primary">{{ $coursesCount }}</h3>
+                    <span class="text-muted fs-8 d-block mb-1">Cursos</span>
+                    <h4 class="fw-bold mb-0 text-primary">{{ $coursesCount }}</h4>
                 </div>
-                <div class="bg-primary-subtle text-primary rounded-circle p-3 fs-3">
+                <div class="bg-primary-subtle text-primary rounded-circle p-2 fs-4">
                     <i class="bi bi-building"></i>
                 </div>
             </div>
-            <div class="card-footer bg-light border-0 py-2 px-4 text-end">
-                <a href="{{ route('admin.courses.index') }}" class="text-decoration-none fs-7 fw-semibold">
+            <div class="card-footer bg-light border-0 py-2 px-3 text-end">
+                <a href="{{ route('admin.courses.index') }}" class="text-decoration-none fs-8 fw-semibold">
                     Gestionar <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-lg-3">
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
         <div class="card shadow-sm border-0 rounded-3 h-100 bg-white">
-            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div class="card-body p-3 d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted fs-7 d-block mb-1">Asignaturas</span>
-                    <h3 class="fw-bold mb-0 text-info">{{ $subjectsCount }}</h3>
+                    <span class="text-muted fs-8 d-block mb-1">Asignaturas</span>
+                    <h4 class="fw-bold mb-0 text-info">{{ $subjectsCount }}</h4>
                 </div>
-                <div class="bg-info-subtle text-info rounded-circle p-3 fs-3">
+                <div class="bg-info-subtle text-info rounded-circle p-2 fs-4">
                     <i class="bi bi-book"></i>
                 </div>
             </div>
-            <div class="card-footer bg-light border-0 py-2 px-4 text-end">
-                <a href="{{ route('admin.subjects.index') }}" class="text-decoration-none fs-7 fw-semibold text-info">
+            <div class="card-footer bg-light border-0 py-2 px-3 text-end">
+                <a href="{{ route('admin.subjects.index') }}" class="text-decoration-none fs-8 fw-semibold text-info">
                     Gestionar <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-lg-3">
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
         <div class="card shadow-sm border-0 rounded-3 h-100 bg-white">
-            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div class="card-body p-3 d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted fs-7 d-block mb-1">Períodos Lectivos</span>
-                    <h3 class="fw-bold mb-0 text-success">{{ $periodsCount }}</h3>
+                    <span class="text-muted fs-8 d-block mb-1">Períodos</span>
+                    <h4 class="fw-bold mb-0 text-success">{{ $periodsCount }}</h4>
                 </div>
-                <div class="bg-success-subtle text-success rounded-circle p-3 fs-3">
+                <div class="bg-success-subtle text-success rounded-circle p-2 fs-4">
                     <i class="bi bi-calendar3"></i>
                 </div>
             </div>
-            <div class="card-footer bg-light border-0 py-2 px-4 text-end">
-                <a href="{{ route('admin.academic-periods.index') }}" class="text-decoration-none fs-7 fw-semibold text-success">
+            <div class="card-footer bg-light border-0 py-2 px-3 text-end">
+                <a href="{{ route('admin.academic-periods.index') }}" class="text-decoration-none fs-8 fw-semibold text-success">
                     Gestionar <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="col-12 col-sm-6 col-lg-3">
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
         <div class="card shadow-sm border-0 rounded-3 h-100 bg-white">
-            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div class="card-body p-3 d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted fs-7 d-block mb-1">Usuarios Totales</span>
-                    <h3 class="fw-bold mb-0 text-secondary">{{ $usersCount }}</h3>
+                    <span class="text-muted fs-8 d-block mb-1">Matrículas Activas</span>
+                    <h4 class="fw-bold mb-0 text-warning">{{ $activeEnrollmentsCount }}</h4>
                 </div>
-                <div class="bg-secondary-subtle text-secondary rounded-circle p-3 fs-3">
-                    <i class="bi bi-people"></i>
+                <div class="bg-warning-subtle text-warning-emphasis rounded-circle p-2 fs-4">
+                    <i class="bi bi-person-badge"></i>
                 </div>
             </div>
-            <div class="card-footer bg-light border-0 py-2 px-4 text-end">
-                <span class="text-muted fs-7">Base de Usuarios</span>
+            <div class="card-footer bg-light border-0 py-2 px-3 text-end">
+                <a href="{{ route('admin.enrollments.index') }}" class="text-decoration-none fs-8 fw-semibold text-warning-emphasis">
+                    Ver Matrículas <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="card shadow-sm border-0 rounded-3 h-100 bg-white">
+            <div class="card-body p-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted fs-8 d-block mb-1">Asignaciones Docentes</span>
+                    <h4 class="fw-bold mb-0 text-indigo" style="color: #6610f2;">{{ $activeAssignmentsCount }}</h4>
+                </div>
+                <div class="bg-primary-subtle text-primary rounded-circle p-2 fs-4">
+                    <i class="bi bi-person-workspace"></i>
+                </div>
+            </div>
+            <div class="card-footer bg-light border-0 py-2 px-3 text-end">
+                <a href="{{ route('admin.teaching-assignments.index') }}" class="text-decoration-none fs-8 fw-semibold text-primary">
+                    Ver Asignaciones <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Active Period Detail Card -->
+<!-- Active Period Detail Card & Quick Actions -->
 <div class="row">
     <div class="col-12 col-lg-8">
         <div class="card shadow-sm border-0 rounded-3 mb-4">
@@ -143,7 +164,7 @@
                         <i class="bi bi-exclamation-triangle-fill fs-2"></i>
                         <div>
                             <strong>No hay un período académico activo en este momento.</strong>
-                            <p class="mb-0 fs-7">Es necesario activar un período lectivo para habilitar la matrículas y asignaciones académicas.</p>
+                            <p class="mb-0 fs-7">Es necesario activar un período lectivo para habilitar las matrículas y asignaciones académicas.</p>
                         </div>
                     </div>
                 @endif
@@ -160,14 +181,17 @@
             </div>
             <div class="card-body p-3">
                 <div class="d-grid gap-2">
-                    <a href="{{ route('admin.courses.create') }}" class="btn btn-outline-primary text-start p-3">
+                    <a href="{{ route('admin.enrollments.create') }}" class="btn btn-outline-primary text-start p-3">
+                        <i class="bi bi-person-badge me-2"></i> Nueva Matrícula
+                    </a>
+                    <a href="{{ route('admin.teaching-assignments.create') }}" class="btn btn-outline-primary text-start p-3">
+                        <i class="bi bi-person-workspace me-2"></i> Nueva Asignación Docente
+                    </a>
+                    <a href="{{ route('admin.courses.create') }}" class="btn btn-outline-secondary text-start p-3">
                         <i class="bi bi-plus-circle me-2"></i> Registrar Nuevo Curso
                     </a>
-                    <a href="{{ route('admin.subjects.create') }}" class="btn btn-outline-info text-start p-3 text-dark">
-                        <i class="bi bi-plus-circle me-2 text-info"></i> Registrar Nueva Asignatura
-                    </a>
-                    <a href="{{ route('admin.academic-periods.create') }}" class="btn btn-outline-success text-start p-3">
-                        <i class="bi bi-plus-circle me-2"></i> Crear Período Académico
+                    <a href="{{ route('admin.subjects.create') }}" class="btn btn-outline-secondary text-start p-3">
+                        <i class="bi bi-plus-circle me-2"></i> Registrar Nueva Asignatura
                     </a>
                 </div>
             </div>

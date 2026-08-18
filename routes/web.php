@@ -3,11 +3,14 @@
 use App\Http\Controllers\Admin\AcademicPeriodController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeachingAssignmentController as AdminTeachingAssignmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Teacher\TeachingAssignmentController as TeacherTeachingAssignmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -60,11 +63,29 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::put('/academic-periods/{academic_period}', [AcademicPeriodController::class, 'update'])->name('academic-periods.update');
         Route::patch('/academic-periods/{academic_period}/activate', [AcademicPeriodController::class, 'activate'])->name('academic-periods.activate');
         Route::patch('/academic-periods/{academic_period}/toggle-status', [AcademicPeriodController::class, 'toggleStatus'])->name('academic-periods.toggle-status');
+
+        // Enrollments Management
+        Route::get('/enrollments', [AdminEnrollmentController::class, 'index'])->name('enrollments.index');
+        Route::get('/enrollments/create', [AdminEnrollmentController::class, 'create'])->name('enrollments.create');
+        Route::post('/enrollments', [AdminEnrollmentController::class, 'store'])->name('enrollments.store');
+        Route::get('/enrollments/{enrollment}/edit', [AdminEnrollmentController::class, 'edit'])->name('enrollments.edit');
+        Route::put('/enrollments/{enrollment}', [AdminEnrollmentController::class, 'update'])->name('enrollments.update');
+        Route::patch('/enrollments/{enrollment}/toggle-status', [AdminEnrollmentController::class, 'toggleStatus'])->name('enrollments.toggle-status');
+
+        // Teaching Assignments Management
+        Route::get('/teaching-assignments', [AdminTeachingAssignmentController::class, 'index'])->name('teaching-assignments.index');
+        Route::get('/teaching-assignments/create', [AdminTeachingAssignmentController::class, 'create'])->name('teaching-assignments.create');
+        Route::post('/teaching-assignments', [AdminTeachingAssignmentController::class, 'store'])->name('teaching-assignments.store');
+        Route::get('/teaching-assignments/{teaching_assignment}/edit', [AdminTeachingAssignmentController::class, 'edit'])->name('teaching-assignments.edit');
+        Route::put('/teaching-assignments/{teaching_assignment}', [AdminTeachingAssignmentController::class, 'update'])->name('teaching-assignments.update');
+        Route::patch('/teaching-assignments/{teaching_assignment}/toggle-status', [AdminTeachingAssignmentController::class, 'toggleStatus'])->name('teaching-assignments.toggle-status');
     });
 
     // Teacher Area
     Route::middleware(['role:teacher'])->prefix('teacher')->as('teacher.')->group(function () {
         Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/assignments', [TeacherTeachingAssignmentController::class, 'index'])->name('assignments.index');
+        Route::get('/assignments/{assignment}', [TeacherTeachingAssignmentController::class, 'show'])->name('assignments.show');
     });
 
     // Student Area
