@@ -9,7 +9,7 @@ Actúa como arquitecto y desarrollador senior de Laravel. Implementa exclusivame
 - Producto: **Sistema de Calificaciones**.
 - Tipo: aplicación web académica.
 - Backend: Laravel 12 sobre PHP 8.2 o superior.
-- Persistencia: MySQL 8; no usar SQLite para desarrollo ni pruebas de integración.
+- Persistencia: relacional mediante MySQL/MariaDB compatible. El entorno local utiliza MariaDB 10.4 con el controlador mysql de Laravel. No se utilizará SQLite.
 - Interfaz: Blade, Bootstrap 5 y JavaScript mínimo.
 - Roles: `admin`, `teacher`, `student`.
 - Evaluación: escala de 0 a 10, dos parciales y 50 % de peso final para cada parcial.

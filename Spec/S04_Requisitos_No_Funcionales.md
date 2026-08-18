@@ -41,5 +41,5 @@
 ## Compatibilidad
 
 - **RNF-024:** compatible con versiones actuales de Chrome, Edge y Firefox.
-- **RNF-025:** aplicación desplegable en Linux con PHP 8.2+, MySQL 8 y Node para compilar assets.
+- **RNF-025:** aplicación desplegable en Linux con PHP 8.2+, MySQL/MariaDB y Node para compilar assets.
 

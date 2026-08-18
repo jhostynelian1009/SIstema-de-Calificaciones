@@ -3,7 +3,7 @@
 ## Stack
 
 - Laravel 12 y PHP 8.2+.
-- MySQL 8 con `utf8mb4`.
+- Persistencia relacional mediante MySQL/MariaDB compatible. El entorno local utiliza MariaDB 10.4 con el controlador `mysql` de Laravel. No se utilizará SQLite.
 - Blade para renderizado en servidor.
 - Bootstrap 5 compilado mediante Vite.
 - PHPUnit/Pest según la instalación del proyecto; no mezclar estilos sin necesidad.

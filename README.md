@@ -1,6 +1,6 @@
 # Sistema de Calificaciones — Spec as a Skill
 
-Sistema web académico desarrollado sobre **Laravel 12, PHP 8.2+, MySQL 8, Blade y Bootstrap 5**.
+Sistema web académico desarrollado sobre **Laravel 12, PHP 8.2+, MySQL/MariaDB compatible, Blade y Bootstrap 5**.
 
 ## Propósito
 
@@ -19,7 +19,7 @@ No incluye entrega de tareas, almacenamiento de archivos, videoconferencias ni e
 - **PHP**: 8.2 o superior (con extensiones pdo, pdo_mysql, mbstring, openssl)
 - **Composer**: 2.x
 - **Node.js**: 18+ / 22+ & npm
-- **Base de Datos**: MySQL 8.0+ / MariaDB 10.4+ (utf8mb4)
+- **Base de Datos**: Persistencia relacional mediante MySQL/MariaDB compatible. El entorno local utiliza MariaDB 10.4 con el controlador `mysql` de Laravel. No se utilizará SQLite.
 
 ---
 
@@ -36,7 +36,7 @@ Sistema-de-Calificaciones/
 ├── resources/
 ├── routes/
 ├── PromptMaster.md
-├── spec/
+├── Spec/
 └── Skill/
 ```
 
@@ -49,7 +49,7 @@ npm install
 
 ### 3. Configuración de Entorno (.env)
 
-Copia el archivo `.env.example` a `.env` y configura el acceso a MySQL:
+Copia el archivo `.env.example` a `.env` y configura el acceso a MySQL/MariaDB:
 
 ```ini
 APP_NAME="Sistema de Calificaciones"
@@ -65,7 +65,7 @@ APP_FAKER_LOCALE=es_ES
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=3306  # Ajustar a tu puerto MySQL (ej. 3307 en XAMPP si aplica)
+DB_PORT=3306  # Ajustar a tu puerto MySQL/MariaDB (ej. 3307 en XAMPP si aplica)
 DB_DATABASE=sistema_calificaciones
 DB_USERNAME=root
 DB_PASSWORD=
@@ -78,20 +78,21 @@ Genera la clave de la aplicación:
 php artisan key:generate
 ```
 
-### 4. Preparar Bases de Datos MySQL
+### 4. Preparar Bases de Datos MySQL / MariaDB
 
-Crea las bases de datos principal y de pruebas en MySQL:
+Crea las bases de datos principal y de pruebas:
 
 ```sql
 CREATE DATABASE sistema_calificaciones CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE sistema_calificaciones_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-### 5. Ejecutar Migraciones
+### 5. Ejecutar Migraciones y Seeders
 
 ```bash
 php artisan config:clear
 php artisan migrate
+php artisan db:seed
 ```
 
 ### 6. Compilar Assets (Vite + Bootstrap 5)
@@ -105,7 +106,7 @@ Para desarrollo en vivo:
 npm run dev
 ```
 
-### 7. Ejecutar Pruebas Automatizadas (MySQL Dedicated)
+### 7. Ejecutar Pruebas Automatizadas (MariaDB / MySQL Dedicated)
 
 ```bash
 php artisan test
@@ -118,6 +119,19 @@ php artisan serve
 ```
 
 Navega a `http://127.0.0.1:8000`.
+
+---
+
+## Usuarios y Credenciales Demo (Entorno Local Exclusivo)
+
+Tras ejecutar `php artisan db:seed`, se encuentran disponibles las siguientes cuentas de prueba:
+
+| Rol | Correo Electrónico | Contraseña | Estado |
+|---|---|---|---|
+| **Administrador** | `admin@calificaciones.local` | `Password123!` | Activo |
+| **Docente** | `docente@calificaciones.local` | `Password123!` | Activo |
+| **Estudiante** | `estudiante@calificaciones.local` | `Password123!` | Activo |
+| **Prueba Inactivo** | `inactivo@calificaciones.local` | `Password123!` | Inactivo |
 
 ---
 
@@ -136,5 +150,7 @@ Las notas aceptadas están entre `0.00` y `10.00` y se presentan redondeadas a d
 
 ## Estado de Desarrollo (Skill actual)
 
-- **Skill completada:** `K-001 — Inicializar Laravel y entorno`
-- **Siguiente Skill:** `K-002 — Autenticación, roles y autorización`
+- **Skills completadas:**
+  - `K-001 — Inicializar Laravel y entorno`
+  - `K-002 — Autenticación, roles y autorización base`
+- **Siguiente Skill:** `K-003 — Gestión administrativa de usuarios`

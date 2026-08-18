@@ -11,7 +11,7 @@ Leer `S01`, `S04`, `S09` y `S12`.
 ## Instrucciones
 
 1. Inspecciona el repositorio. Si Laravel ya existe, no lo reinstales ni sobrescribas trabajo previo.
-2. Verifica PHP 8.2+, Composer, Node y acceso a MySQL 8.
+2. Verifica PHP 8.2+, Composer, Node y acceso a MySQL/MariaDB.
 3. Crea o completa `.env.example` con variables neutrales y `DB_CONNECTION=mysql`.
 4. Configura `APP_NAME="Sistema de Calificaciones"`, locale español y zona `America/Guayaquil`.
 5. Instala Bootstrap 5 y sus dependencias de Vite; elimina dependencias visuales incompatibles solo si no tienen uso existente.

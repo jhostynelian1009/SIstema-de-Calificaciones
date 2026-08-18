@@ -16,7 +16,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{{ url('/') }}">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{{ Auth::check() ? route('dashboard') : url('/') }}">
                 <i class="bi bi-mortarboard-fill fs-4"></i>
                 <span>Sistema de Calificaciones</span>
             </a>
@@ -27,16 +27,65 @@
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Inicio</a>
-                    </li>
+                    @auth
+                        @if(Auth::user()->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                    <i class="bi bi-speedometer2 me-1"></i> Panel Administrador
+                                </a>
+                            </li>
+                        @elseif(Auth::user()->isTeacher())
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}" href="{{ route('teacher.dashboard') }}">
+                                    <i class="bi bi-journal-text me-1"></i> Panel Docente
+                                </a>
+                            </li>
+                        @elseif(Auth::user()->isStudent())
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}" href="{{ route('student.dashboard') }}">
+                                    <i class="bi bi-card-checklist me-1"></i> Mis Calificaciones
+                                </a>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Inicio</a>
+                        </li>
+                    @endauth
                 </ul>
 
-                <div class="d-flex align-items-center gap-2">
-                    <span class="navbar-text text-white-50 fs-7">
-                        Entorno Base Inicializado
-                    </span>
-                </div>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+                    @guest
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light btn-sm px-3" href="{{ route('login') }}">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="userDropdown" class="nav-link dropdown-toggle active d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="badge bg-light text-primary rounded-circle p-2">
+                                    <i class="bi bi-person-fill fs-6"></i>
+                                </span>
+                                <span>{{ Auth::user()->name }}</span>
+                                <span class="badge bg-info text-dark fs-8 ms-1">{{ Auth::user()->role->label() }}</span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
+                                <a class="dropdown-item py-2" href="{{ route('profile.edit') }}">
+                                    <i class="bi bi-person-gear me-2 text-primary"></i> Mi Perfil
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item py-2 text-danger">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
             </div>
         </div>
     </nav>
