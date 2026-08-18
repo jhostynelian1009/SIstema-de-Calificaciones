@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AcademicPeriodController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
@@ -32,6 +35,31 @@ Route::middleware(['auth', 'active'])->group(function () {
     // Admin Area
     Route::middleware(['role:admin'])->prefix('admin')->as('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Courses Management
+        Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+        Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
+        Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+        Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
+        Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
+        Route::patch('/courses/{course}/toggle-status', [CourseController::class, 'toggleStatus'])->name('courses.toggle-status');
+
+        // Subjects Management
+        Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects.index');
+        Route::get('/subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
+        Route::post('/subjects', [SubjectController::class, 'store'])->name('subjects.store');
+        Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+        Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('subjects.update');
+        Route::patch('/subjects/{subject}/toggle-status', [SubjectController::class, 'toggleStatus'])->name('subjects.toggle-status');
+
+        // Academic Periods Management
+        Route::get('/academic-periods', [AcademicPeriodController::class, 'index'])->name('academic-periods.index');
+        Route::get('/academic-periods/create', [AcademicPeriodController::class, 'create'])->name('academic-periods.create');
+        Route::post('/academic-periods', [AcademicPeriodController::class, 'store'])->name('academic-periods.store');
+        Route::get('/academic-periods/{academic_period}/edit', [AcademicPeriodController::class, 'edit'])->name('academic-periods.edit');
+        Route::put('/academic-periods/{academic_period}', [AcademicPeriodController::class, 'update'])->name('academic-periods.update');
+        Route::patch('/academic-periods/{academic_period}/activate', [AcademicPeriodController::class, 'activate'])->name('academic-periods.activate');
+        Route::patch('/academic-periods/{academic_period}/toggle-status', [AcademicPeriodController::class, 'toggleStatus'])->name('academic-periods.toggle-status');
     });
 
     // Teacher Area

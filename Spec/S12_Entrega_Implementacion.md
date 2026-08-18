@@ -2,7 +2,7 @@
 
 ## Fases
 
-1. Entorno Laravel, MySQL, Bootstrap y autenticación.
+1. Entorno Laravel, MySQL/MariaDB, Bootstrap y autenticación.
 2. Roles, middleware y Policies.
 3. Estructura académica, matrículas y asignaciones.
 4. Actividades, porcentajes, notas y observaciones.

@@ -8,7 +8,7 @@
 | `courses` | id, name, code, description, active | code único |
 | `subjects` | id, name, code, description, active | code único |
 | `academic_periods` | id, name, starts_at, ends_at, active | fechas válidas; máximo uno activo |
-| `partials` | id, academic_period_id, number, name, weight, status, published_at | único período+número; número 1 o 2; weight 50 |
+| `partials` | id, academic_period_id, number, name, weight | único período+número; número 1 o 2; weight 50.00 |
 | `enrollments` | id, student_id, course_id, academic_period_id, active | único estudiante+período |
 | `teaching_assignments` | id, teacher_id, course_id, subject_id, academic_period_id, active | combinación única |
 | `activities` | id, teaching_assignment_id, partial_id, name, description, due_date, percentage, active | percentage decimal(5,2) |
@@ -31,7 +31,7 @@
 - Usar `foreignId()->constrained()` e índices para columnas de filtrado frecuente.
 - `courses`, `subjects`, `activities` y relaciones académicas conservan historial mediante `active`; puede añadirse `softDeletes` donde la eliminación administrativa sea necesaria.
 - La publicación se modela por **asignación docente + parcial**, no globalmente por parcial.
-- `partials.status` describe el estado general del período; el estado visible de una asignatura está en `partial_publications`.
+- La publicación se modela en `partial_publications` por asignación docente.
 - No crear columnas `partial_average` ni `final_average` como fuente primaria.
 
 ## Índices mínimos

@@ -19,7 +19,7 @@
 - Registro individual y masivo de notas.
 - Publicación, bloqueo, reapertura y auditoría.
 - Consulta del estudiante limitada a resultados propios publicados.
-- Restricciones reales sobre MySQL de prueba.
+- Restricciones reales sobre MySQL/MariaDB de prueba.
 
 ### Navegación
 

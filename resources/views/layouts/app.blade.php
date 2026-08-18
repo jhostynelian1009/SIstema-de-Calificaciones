@@ -31,7 +31,22 @@
                         @if(Auth::user()->isAdmin())
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                    <i class="bi bi-speedometer2 me-1"></i> Panel Administrador
+                                    <i class="bi bi-speedometer2 me-1"></i> Panel
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.courses.*') ? 'active' : '' }}" href="{{ route('admin.courses.index') }}">
+                                    <i class="bi bi-building me-1"></i> Cursos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.subjects.*') ? 'active' : '' }}" href="{{ route('admin.subjects.index') }}">
+                                    <i class="bi bi-book me-1"></i> Asignaturas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.academic-periods.*') ? 'active' : '' }}" href="{{ route('admin.academic-periods.index') }}">
+                                    <i class="bi bi-calendar3 me-1"></i> Períodos
                                 </a>
                             </li>
                         @elseif(Auth::user()->isTeacher())
