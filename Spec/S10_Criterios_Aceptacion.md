@@ -14,6 +14,13 @@
 - **CA-007:** una asignación duplicada para la combinación curso–asignatura–período es rechazada; el cambio de docente actualiza la asignación existente.
 - **CA-008:** una entidad académica con historial no puede eliminarse destruyendo calificaciones.
 
+## Estados de parciales por asignación (K-005)
+
+- **CA-008A:** cada asignación docente genera exactamente dos filas de estado en `partial_publications`, correspondientes a P1 y P2 con estado inicial `draft`.
+- **CA-008B:** la relación asignación–parcial valida que ambos pertenezcan al mismo período académico.
+- **CA-008C:** los estados persistidos de publicación (`draft`, `published`, `reopened`) son independientes de los estados calculados de preparación (vacío, incompleto, listo).
+- **CA-008D:** la reasignación de docente o desactivación de asignación conserva las filas de `partial_publications` sin reiniciarlas ni destruirlas.
+
 ## Actividades y notas
 
 - **CA-009:** el docente ve únicamente las asignaciones propias activas.

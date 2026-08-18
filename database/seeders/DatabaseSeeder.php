@@ -106,6 +106,7 @@ class DatabaseSeeder extends Seeder
             AcademicPeriodSeeder::class,
             EnrollmentSeeder::class,
             TeachingAssignmentSeeder::class,
+            PartialPublicationSeeder::class,
         ]);
     }
 }

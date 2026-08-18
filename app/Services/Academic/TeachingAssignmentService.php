@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;
 use App\Models\User;
+use App\Services\Grades\PartialPublicationStateService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -15,6 +16,7 @@ class TeachingAssignmentService
 {
     /**
      * Create a TeachingAssignment inside a transaction after validating entities and course+subject+period uniqueness.
+     * Automatically initializes P1 and P2 partial publication draft states.
      */
     public function createAssignment(array $data): TeachingAssignment
     {
@@ -71,18 +73,23 @@ class TeachingAssignmentService
                 ]);
             }
 
-            return TeachingAssignment::create([
+            $assignment = TeachingAssignment::create([
                 'teacher_id' => $teacher->id,
                 'course_id' => $course->id,
                 'subject_id' => $subject->id,
                 'academic_period_id' => $period->id,
                 'active' => isset($data['active']) ? (bool) $data['active'] : true,
             ]);
+
+            // Initialize P1 and P2 partial publication draft states in the same transaction
+            app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
+
+            return $assignment;
         });
     }
 
     /**
-     * Reassign teacher for an existing TeachingAssignment.
+     * Reassign teacher for an existing TeachingAssignment without touching existing publication states.
      */
     public function reassignTeacher(TeachingAssignment $assignment, int $newTeacherId): TeachingAssignment
     {
@@ -154,6 +161,9 @@ class TeachingAssignmentService
                         'active' => ['No se puede activar la asignación porque el período académico está inactivo.'],
                     ]);
                 }
+
+                // Ensure publication states exist when reactivating
+                app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
             }
 
             $assignment->update([

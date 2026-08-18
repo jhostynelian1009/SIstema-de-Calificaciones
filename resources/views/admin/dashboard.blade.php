@@ -121,6 +121,49 @@
     </div>
 </div>
 
+<!-- Partial Publication Status Summary Card -->
+<div class="card shadow-sm border-0 rounded-3 mb-4 bg-white">
+    <div class="card-header bg-white border-bottom p-3 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0 text-primary fs-6">
+            <i class="bi bi-card-checklist me-2"></i> Monitoreo de Estados de Parciales por Asignaciones Docentes
+        </h5>
+        <a href="{{ route('admin.partial-publications.index') }}" class="btn btn-outline-primary btn-sm">
+            Ver Todos los Estados <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+    </div>
+    <div class="card-body p-3">
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="p-3 rounded-3 bg-secondary-subtle border border-secondary-subtle d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-secondary fw-semibold fs-7 d-block">Parciales en Borrador</span>
+                        <h3 class="fw-bold mb-0 text-secondary">{{ $draftCount }}</h3>
+                    </div>
+                    <span class="badge bg-secondary px-3 py-2 fs-7">draft</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="p-3 rounded-3 bg-success-subtle border border-success-subtle d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-success fw-semibold fs-7 d-block">Parciales Publicados</span>
+                        <h3 class="fw-bold mb-0 text-success">{{ $publishedCount }}</h3>
+                    </div>
+                    <span class="badge bg-success px-3 py-2 fs-7">published</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="p-3 rounded-3 bg-warning-subtle border border-warning-subtle d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-warning-emphasis fw-semibold fs-7 d-block">Parciales Reabiertos</span>
+                        <h3 class="fw-bold mb-0 text-warning-emphasis">{{ $reopenedCount }}</h3>
+                    </div>
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-7">reopened</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Active Period Detail Card & Quick Actions -->
 <div class="row">
     <div class="col-12 col-lg-8">
@@ -181,6 +224,9 @@
             </div>
             <div class="card-body p-3">
                 <div class="d-grid gap-2">
+                    <a href="{{ route('admin.partial-publications.index') }}" class="btn btn-outline-primary text-start p-3">
+                        <i class="bi bi-card-checklist me-2"></i> Monitorear Parciales
+                    </a>
                     <a href="{{ route('admin.enrollments.create') }}" class="btn btn-outline-primary text-start p-3">
                         <i class="bi bi-person-badge me-2"></i> Nueva Matrícula
                     </a>

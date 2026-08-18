@@ -31,12 +31,38 @@
                         <i class="bi bi-building me-1"></i> {{ $assignment->course?->name ?? 'Curso' }}
                     </p>
 
+                    <!-- Partial Publication States Summary -->
+                    <div class="bg-light p-3 rounded-3 mb-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-2 fs-7">
+                            <span class="fw-semibold text-secondary">Estados de Parciales:</span>
+                        </div>
+                        <div class="row g-2">
+                            @forelse($assignment->partialPublications->sortBy(fn($p) => $p->partial->number) as $pub)
+                                <div class="col-6">
+                                    <div class="p-2 bg-white rounded border fs-8">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="fw-bold text-primary">{{ $pub->partial?->name ?? 'P'.$loop->iteration }}</span>
+                                            <span class="text-muted fs-8">50%</span>
+                                        </div>
+                                        <span class="badge {{ $pub->status->badgeClass() }} w-100 py-1">
+                                            {{ $pub->status->label() }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="col-12">
+                                    <span class="fs-8 text-muted">Parciales no inicializados</span>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+
                     <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
                         <span class="small text-muted">
                             <i class="bi bi-tag me-1"></i> Código: {{ $assignment->subject?->code }}
                         </span>
                         <a href="{{ route('teacher.assignments.show', $assignment) }}" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
-                            <span>Ver Estudiantes</span>
+                            <span>Ver Detalles</span>
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>

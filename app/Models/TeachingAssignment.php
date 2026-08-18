@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TeachingAssignment extends Model
 {
@@ -68,6 +69,14 @@ class TeachingAssignment extends Model
     public function academicPeriod(): BelongsTo
     {
         return $this->belongsTo(AcademicPeriod::class);
+    }
+
+    /**
+     * Get the partial publication states for this assignment.
+     */
+    public function partialPublications(): HasMany
+    {
+        return $this->hasMany(PartialPublication::class);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\TeachingAssignment;
+use App\Services\Grades\PartialPublicationStateService;
 use Illuminate\Http\Request;
 
 class TeachingAssignmentController extends Controller
@@ -16,11 +17,25 @@ class TeachingAssignmentController extends Controller
     {
         $teacher = $request->user();
 
-        $assignments = TeachingAssignment::with(['course', 'subject', 'academicPeriod'])
+        $assignments = TeachingAssignment::with([
+            'course',
+            'subject',
+            'academicPeriod',
+            'partialPublications.partial',
+        ])
             ->assignedTo($teacher)
             ->active()
             ->latest()
             ->paginate(15);
+
+        // Ensure publication draft states exist for teacher's active assignments
+        $publicationService = app(PartialPublicationStateService::class);
+        foreach ($assignments as $assignment) {
+            if ($assignment->partialPublications->isEmpty()) {
+                $publicationService->ensureForAssignment($assignment);
+                $assignment->load('partialPublications.partial');
+            }
+        }
 
         return view('teacher.assignments.index', compact('assignments'));
     }
@@ -32,7 +47,13 @@ class TeachingAssignmentController extends Controller
     {
         $this->authorize('view', $assignment);
 
-        $assignment->load(['course', 'subject', 'academicPeriod']);
+        $assignment->load(['course', 'subject', 'academicPeriod', 'partialPublications.partial']);
+
+        // Ensure publication states exist
+        if ($assignment->partialPublications->isEmpty()) {
+            app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
+            $assignment->load('partialPublications.partial');
+        }
 
         // Load active enrolled students for the assignment's course & period
         $students = Enrollment::with('student')

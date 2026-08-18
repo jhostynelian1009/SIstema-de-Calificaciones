@@ -46,7 +46,7 @@ Ejemplo: si `P1 = 8.05` y `P2 = 9.10`, el promedio final es `8.58`.
 
 ## Publicación y reapertura
 
-- **RN-021:** publicar hace visibles para los estudiantes las actividades, notas, observaciones y promedio del parcial.
+- **RN-021:** el estado persistido de un parcial por asignación en `partial_publications.status` se limita a `draft` (borrador), `published` (publicado) y `reopened` (reabierto). Los estados de preparación (vacío, incompleto, listo) son calculados dinámicamente y no se persisten en base de datos.
 - **RN-022:** la publicación exige 100 % de ponderación y una calificación completa para cada actividad activa y estudiante activo matriculado.
 - **RN-023:** el docente no modifica un parcial publicado.
 - **RN-024:** el administrador puede reabrirlo indicando un motivo; la acción y cambios posteriores quedan auditados.

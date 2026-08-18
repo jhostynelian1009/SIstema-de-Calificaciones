@@ -19,19 +19,20 @@
 
 ## Administrador `/admin`
 
-- Dashboard: conteos de usuarios, cursos, asignaciones y estado del período activo.
+- Dashboard: conteos de usuarios, cursos, asignaciones, estado del período activo y resumen de estados de parciales (borrador, publicado, reabierto).
 - Usuarios: tabla paginada, filtros por nombre, correo, rol y estado.
 - Cursos y asignaturas: CRUD con activación/desactivación.
 - Períodos: configuración, activación y visualización de P1/P2.
 - Matrículas: filtro por período/curso y asignación de estudiantes.
 - Asignaciones docentes: filtro por docente/curso/asignatura/período.
-- Resultados: vista de consulta y acción controlada de reapertura.
+- Estados de parciales: vista de consulta por período/curso/asignatura/docente/parcial/estado.
+- Resultados: vista de consulta y acción controlada de reapertura (en K-008).
 - Auditoría: eventos sensibles con filtros básicos.
 
 ## Docente `/teacher`
 
-- Dashboard: tarjetas de asignaciones activas y progreso de P1/P2.
-- Detalle de asignación: estudiantes, parciales y porcentajes configurados.
+- Dashboard: tarjetas de asignaciones activas, resumen de parciales en borrador, publicados y reabiertos.
+- Detalle de asignación: estudiantes, parciales (P1 y P2), porcentaje (50 %) y estado persistido en español.
 - Actividades: tabla con porcentaje, estado y total acumulado.
 - Matriz de notas: filas de estudiantes; columnas o sección por actividad; nota y observación editables.
 - Vista previa: promedios provisionales y lista de pendientes.
@@ -47,11 +48,14 @@
 
 ## Estados de interfaz
 
-- **Vacío:** explicación y siguiente paso, no una tabla en blanco.
-- **Incompleto:** porcentaje pendiente o calificaciones pendientes, visible solo a personal autorizado.
-- **Listo:** configuración completa y habilitada para publicar.
-- **Publicado:** insignia, fecha y bloqueo visual de edición.
-- **Error:** mensaje específico sin revelar detalles internos.
+- **Estados persistidos de publicación:**
+  - **Borrador (`draft`):** insignia secundaria, parcial en elaboración.
+  - **Publicado (`published`):** insignia de éxito, resultados oficiales.
+  - **Reabierto (`reopened`):** insignia de advertencia, habilitado por administrador para corrección.
+- **Estados calculados de preparación (en runtime):**
+  - **Vacío:** explicación y siguiente paso, no una tabla en blanco.
+  - **Incompleto:** porcentaje pendiente o calificaciones pendientes, visible solo a personal autorizado.
+  - **Listo:** configuración completa y habilitada para publicar.
 
 ## Formato
 

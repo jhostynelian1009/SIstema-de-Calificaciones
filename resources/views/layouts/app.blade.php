@@ -59,6 +59,11 @@
                                     <i class="bi bi-person-workspace me-1"></i> Asignaciones
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.partial-publications.*') ? 'active' : '' }}" href="{{ route('admin.partial-publications.index') }}">
+                                    <i class="bi bi-card-checklist me-1"></i> Estados de Parciales
+                                </a>
+                            </li>
                         @elseif(Auth::user()->isTeacher())
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}" href="{{ route('teacher.dashboard') }}">

@@ -6,6 +6,7 @@ use Database\Factories\PartialFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Partial extends Model
 {
@@ -43,5 +44,13 @@ class Partial extends Model
     public function academicPeriod(): BelongsTo
     {
         return $this->belongsTo(AcademicPeriod::class);
+    }
+
+    /**
+     * Get the partial publication states for this partial.
+     */
+    public function partialPublications(): HasMany
+    {
+        return $this->hasMany(PartialPublication::class);
     }
 }

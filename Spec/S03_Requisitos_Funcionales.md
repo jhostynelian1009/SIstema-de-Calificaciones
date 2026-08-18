@@ -46,7 +46,7 @@
 ## Sistema
 
 - **RF-032:** calcular promedios según `S05` sin entrada manual.
-- **RF-033:** mostrar estados vacío, incompleto, listo y publicado.
+- **RF-033:** diferenciar el estado persistido de publicación (`draft`, `published`, `reopened`) de los estados calculados de preparación (vacío, incompleto, listo).
 - **RF-034:** registrar auditoría de publicaciones, reaperturas y cambios de notas publicadas.
 - **RF-035:** permitir filtrar y paginar listados administrativos.
 - **RF-036:** exportar una vista imprimible de resultados del estudiante; no se exige PDF en la primera versión.

@@ -39,6 +39,43 @@
     </div>
 </div>
 
+<!-- Partials Status Overview Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white py-3 border-0">
+        <h5 class="card-title fw-bold mb-0 text-primary">
+            <i class="bi bi-calendar-range me-2"></i> Estructura de Parciales y Estados de Publicación
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            @forelse($assignment->partialPublications->sortBy(fn($p) => $p->partial->number) as $pub)
+                <div class="col-12 col-md-6">
+                    <div class="p-3 bg-light rounded-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold text-dark fs-6">
+                                {{ $pub->partial?->name ?? 'Parcial '.$loop->iteration }} (P{{ $pub->partial?->number }})
+                            </span>
+                            <span class="badge bg-primary fs-7">
+                                Peso: {{ number_format($pub->partial?->weight ?? 50, 0) }}%
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted fs-7">Estado de Publicación:</span>
+                            <span class="badge {{ $pub->status->badgeClass() }} px-3 py-2 fs-7">
+                                {{ $pub->status->label() }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12 text-muted">
+                    No se han inicializado los parciales para esta asignación.
+                </div>
+            @endforelse
+        </div>
+    </div>
+</div>
+
 <!-- Enrolled Students List -->
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">

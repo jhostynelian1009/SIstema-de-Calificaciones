@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AcademicPeriodController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
+use App\Http\Controllers\Admin\PartialPublicationController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeachingAssignmentController as AdminTeachingAssignmentController;
 use App\Http\Controllers\DashboardController;
@@ -79,6 +80,9 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('/teaching-assignments/{teaching_assignment}/edit', [AdminTeachingAssignmentController::class, 'edit'])->name('teaching-assignments.edit');
         Route::put('/teaching-assignments/{teaching_assignment}', [AdminTeachingAssignmentController::class, 'update'])->name('teaching-assignments.update');
         Route::patch('/teaching-assignments/{teaching_assignment}/toggle-status', [AdminTeachingAssignmentController::class, 'toggleStatus'])->name('teaching-assignments.toggle-status');
+
+        // Partial Publications View (Read-Only)
+        Route::get('/partial-publications', [PartialPublicationController::class, 'index'])->name('partial-publications.index');
     });
 
     // Teacher Area

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PublicationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\AcademicPeriod;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\PartialPublication;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;
 use App\Models\User;
@@ -37,6 +39,10 @@ class DashboardController extends Controller
                 ->count();
         }
 
+        $draftCount = PartialPublication::where('status', PublicationStatus::Draft)->count();
+        $publishedCount = PartialPublication::where('status', PublicationStatus::Published)->count();
+        $reopenedCount = PartialPublication::where('status', PublicationStatus::Reopened)->count();
+
         return view('admin.dashboard', compact(
             'coursesCount',
             'subjectsCount',
@@ -44,7 +50,10 @@ class DashboardController extends Controller
             'activePeriod',
             'usersCount',
             'activeEnrollmentsCount',
-            'activeAssignmentsCount'
+            'activeAssignmentsCount',
+            'draftCount',
+            'publishedCount',
+            'reopenedCount'
         ));
     }
 }
