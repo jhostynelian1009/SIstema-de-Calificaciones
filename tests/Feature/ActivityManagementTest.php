@@ -453,8 +453,8 @@ class ActivityManagementTest extends TestCase
         $this->assertEquals(5000, $lenguaP1Units); // 50.00%
     }
 
-    public function test_grades_table_does_not_exist_in_k006()
+    public function test_grades_table_exists_in_k007()
     {
-        $this->assertFalse(Schema::hasTable('grades'));
+        $this->assertTrue(Schema::hasTable('grades'));
     }
 }

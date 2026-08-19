@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use App\Models\TeachingAssignment;
 use App\Services\Grades\ActivityService;
 use App\Services\Grades\PartialPublicationStateService;
+use App\Services\Grades\PartialReadinessService;
 use Illuminate\Http\Request;
 
 class TeachingAssignmentController extends Controller
@@ -57,11 +58,15 @@ class TeachingAssignmentController extends Controller
         }
 
         $activityService = app(ActivityService::class);
+        $readinessService = app(PartialReadinessService::class);
+
         $partialSummaries = [];
+        $readinessMap = [];
 
         foreach ($assignment->partialPublications->sortBy(fn ($p) => $p->partial->number) as $pub) {
             if ($pub->partial) {
                 $partialSummaries[$pub->partial->id] = $activityService->getSummary($assignment, $pub->partial);
+                $readinessMap[$pub->partial->id] = $readinessService->checkReadiness($assignment, $pub->partial);
             }
         }
 
@@ -77,6 +82,6 @@ class TeachingAssignmentController extends Controller
             ->pluck('student')
             ->sortBy('name');
 
-        return view('teacher.assignments.show', compact('assignment', 'students', 'partialSummaries'));
+        return view('teacher.assignments.show', compact('assignment', 'students', 'partialSummaries', 'readinessMap'));
     }
 }

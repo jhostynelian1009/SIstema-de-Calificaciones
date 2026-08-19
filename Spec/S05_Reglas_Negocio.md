@@ -51,3 +51,8 @@ Ejemplo: si `P1 = 8.05` y `P2 = 9.10`, el promedio final es `8.58`.
 - **RN-023:** el docente no modifica un parcial publicado.
 - **RN-024:** el administrador puede reabrirlo indicando un motivo; la acción y cambios posteriores quedan auditados.
 - **RN-025:** un estudiante nunca ve borradores, promedios provisionales ni resultados de terceros.
+- **RN-026:** para publicar se consideran los estudiantes con matrícula activa en el momento de la validación de preparación.
+- **RN-027:** una calificación o parcial ya publicado se conserva de forma íntegra como historial aunque posteriormente se desactive la matrícula del estudiante.
+- **RN-028:** un estudiante con matrícula histórica conserva el derecho de consultar los resultados oficiales que fueron publicados durante su período lectivo correspondiente.
+- **RN-029:** la desactivación de un estudiante o matrícula no elimina calificaciones registradas ni altera los resultados oficiales ya publicados.
+- **RN-030:** una reapertura administrativa oculta temporalmente el resultado como oficial hasta que el docente realice las correcciones y vuelva a republicar. Los resultados se calculan en tiempo real sin almacenar tablas ni snapshots de promedios.

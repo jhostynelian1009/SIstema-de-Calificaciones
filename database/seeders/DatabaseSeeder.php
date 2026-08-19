@@ -108,6 +108,8 @@ class DatabaseSeeder extends Seeder
             TeachingAssignmentSeeder::class,
             PartialPublicationSeeder::class,
             ActivitySeeder::class,
+            GradeSeeder::class,
+            PublicationSeeder::class,
         ]);
     }
 }

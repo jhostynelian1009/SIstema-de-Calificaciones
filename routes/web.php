@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Admin\AcademicPeriodController;
 use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
+use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
+use App\Http\Controllers\Admin\GradeController as AdminGradeController;
 use App\Http\Controllers\Admin\PartialPublicationController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeachingAssignmentController as AdminTeachingAssignmentController;
@@ -13,6 +15,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
+use App\Http\Controllers\Teacher\PartialPublicationController as TeacherPartialPublicationController;
 use App\Http\Controllers\Teacher\TeachingAssignmentController as TeacherTeachingAssignmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -83,11 +87,19 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::put('/teaching-assignments/{teaching_assignment}', [AdminTeachingAssignmentController::class, 'update'])->name('teaching-assignments.update');
         Route::patch('/teaching-assignments/{teaching_assignment}/toggle-status', [AdminTeachingAssignmentController::class, 'toggleStatus'])->name('teaching-assignments.toggle-status');
 
-        // Partial Publications View (Read-Only)
+        // Partial Publications View & Reopen
         Route::get('/partial-publications', [PartialPublicationController::class, 'index'])->name('partial-publications.index');
+        Route::get('/partial-publications/{publication}', [PartialPublicationController::class, 'show'])->name('partial-publications.show');
+        Route::patch('/partial-publications/{publication}/reopen', [PartialPublicationController::class, 'reopen'])->name('partial-publications.reopen');
 
         // Activities Monitoring (Read-Only)
         Route::get('/activities', [AdminActivityController::class, 'index'])->name('activities.index');
+
+        // Grades Monitoring (Read-Only)
+        Route::get('/grades', [AdminGradeController::class, 'index'])->name('grades.index');
+
+        // Audit Logs Monitoring (Read-Only)
+        Route::get('/audit-logs', [AdminAuditLogController::class, 'index'])->name('audit-logs.index');
     });
 
     // Teacher Area
@@ -103,6 +115,17 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('/activities/{activity}/edit', [TeacherActivityController::class, 'edit'])->name('activities.edit');
         Route::put('/activities/{activity}', [TeacherActivityController::class, 'update'])->name('activities.update');
         Route::patch('/activities/{activity}/toggle-status', [TeacherActivityController::class, 'toggleStatus'])->name('activities.toggle-status');
+
+        // Grades Management per Assignment, Partial & Activity
+        Route::get('/assignments/{assignment}/partials/{partial}/grades', [TeacherGradeController::class, 'index'])->name('assignments.partials.grades.index');
+        Route::post('/assignments/{assignment}/partials/{partial}/grades/bulk-upsert', [TeacherGradeController::class, 'bulkUpsert'])->name('assignments.partials.grades.bulk-upsert');
+        Route::get('/activities/{activity}/grades', [TeacherGradeController::class, 'activityGrades'])->name('activities.grades.index');
+        Route::post('/activities/{activity}/grades', [TeacherGradeController::class, 'store'])->name('activities.grades.store');
+        Route::put('/grades/{grade}', [TeacherGradeController::class, 'update'])->name('grades.update');
+
+        // Publication Preview & Publish Flow
+        Route::get('/assignments/{assignment}/partials/{partial}/preview', [TeacherPartialPublicationController::class, 'preview'])->name('partial-publications.preview');
+        Route::post('/assignments/{assignment}/partials/{partial}/publish', [TeacherPartialPublicationController::class, 'publish'])->name('partial-publications.publish');
     });
 
     // Student Area

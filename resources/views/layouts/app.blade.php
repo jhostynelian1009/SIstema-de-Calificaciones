@@ -69,6 +69,16 @@
                                     <i class="bi bi-list-task me-1"></i> Actividades
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.grades.*') ? 'active' : '' }}" href="{{ route('admin.grades.index') }}">
+                                    <i class="bi bi-journal-check me-1"></i> Calificaciones
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.audit-logs.*') ? 'active' : '' }}" href="{{ route('admin.audit-logs.index') }}">
+                                    <i class="bi bi-shield-check me-1"></i> Auditoría
+                                </a>
+                            </li>
                         @elseif(Auth::user()->isTeacher())
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}" href="{{ route('teacher.dashboard') }}">

@@ -43,7 +43,7 @@
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-header bg-white py-3 border-0">
         <h5 class="card-title fw-bold mb-0 text-primary">
-            <i class="bi bi-calendar-range me-2"></i> Estructura de Parciales y Actividades Evaluativas
+            <i class="bi bi-calendar-range me-2"></i> Estructura de Parciales, Actividades y Calificaciones
         </h5>
     </div>
     <div class="card-body">
@@ -51,6 +51,7 @@
             @forelse($assignment->partialPublications->sortBy(fn($p) => $p->partial->number) as $pub)
                 @php
                     $sum = $partialSummaries[$pub->partial_id] ?? null;
+                    $readiness = $readinessMap[$pub->partial_id] ?? null;
                 @endphp
                 <div class="col-12 col-md-6">
                     <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
@@ -65,34 +66,57 @@
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted fs-7">Estado de Publicación:</span>
-                                <span class="badge {{ $pub->status->badgeClass() }} px-3 py-1 fs-7">
-                                    {{ $pub->status->label() }}
-                                </span>
+                                <span class="text-muted fs-7">Estado Persistido / Calculado:</span>
+                                <div>
+                                    <span class="badge {{ $pub->status->badgeClass() }} px-2 py-1 fs-8">
+                                        {{ $pub->status->label() }}
+                                    </span>
+                                    @if($readiness)
+                                        <span class="badge bg-dark fs-8 text-uppercase">{{ $readiness['calculated_status'] }}</span>
+                                    @endif
+                                </div>
                             </div>
 
-                            @if($sum)
+                            @if($readiness)
                                 <div class="p-2 bg-white rounded border mb-3 fs-7">
                                     <div class="d-flex justify-content-between mb-1">
                                         <span class="text-muted">Ponderación Activa:</span>
-                                        <span class="fw-bold">{{ $sum['total_percentage'] }}% / 100.00%</span>
+                                        <span class="fw-bold {{ $readiness['total_percentage'] == 100.00 ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($readiness['total_percentage'], 2) }}% / 100.00%
+                                        </span>
                                     </div>
                                     <div class="d-flex justify-content-between mb-1">
-                                        <span class="text-muted">Estado de Carga:</span>
-                                        <span class="badge {{ $sum['badge_class'] }} fs-8">{{ $sum['weighted_status_label'] }}</span>
+                                        <span class="text-muted">Avance de Calificaciones:</span>
+                                        <span class="fw-semibold text-dark">
+                                            {{ $readiness['completed_grades_count'] }} / {{ $readiness['expected_grades_count'] }}
+                                        </span>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="text-muted">Actividades Registradas:</span>
-                                        <span><strong>{{ $sum['active_count'] }}</strong> activas</span>
-                                    </div>
+                                    @if($pub->published_at)
+                                        <div class="mt-2 pt-2 border-top fs-8 text-muted">
+                                            <i class="bi bi-check-circle-fill text-success me-1"></i>
+                                            Publicado el {{ $pub->published_at->format('d/m/Y H:i') }} por {{ $pub->publishedBy?->name ?? 'Docente' }}
+                                        </div>
+                                    @endif
+                                    @if($pub->status->value === 'reopened')
+                                        <div class="mt-2 pt-2 border-top fs-8 text-warning fw-bold">
+                                            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                            Reabierto para correcciones. Motivo: "{{ $pub->reopen_reason }}"
+                                        </div>
+                                    @endif
                                 </div>
                             @endif
                         </div>
 
-                        <div class="pt-2 border-top text-end">
+                        <div class="pt-2 border-top d-flex gap-2">
                             @if(Auth::id() === $assignment->teacher_id)
-                                <a href="{{ route('teacher.assignments.partials.activities.index', [$assignment, $pub->partial]) }}" class="btn btn-sm btn-primary w-100">
-                                    <i class="bi bi-list-task me-1"></i> Gestionar actividades
+                                <a href="{{ route('teacher.assignments.partials.activities.index', [$assignment, $pub->partial]) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
+                                    <i class="bi bi-list-task me-1"></i> Actividades
+                                </a>
+                                <a href="{{ route('teacher.assignments.partials.grades.index', [$assignment, $pub->partial]) }}" class="btn btn-sm btn-outline-success flex-grow-1">
+                                    <i class="bi bi-journal-check me-1"></i> Calificaciones
+                                </a>
+                                <a href="{{ route('teacher.partial-publications.preview', [$assignment, $pub->partial]) }}" class="btn btn-sm btn-primary flex-grow-1">
+                                    <i class="bi bi-eye me-1"></i> Vista Previa / Publicar
                                 </a>
                             @endif
                         </div>

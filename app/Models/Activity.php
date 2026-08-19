@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Activity extends Model
 {
@@ -44,6 +45,14 @@ class Activity extends Model
     public function partial(): BelongsTo
     {
         return $this->belongsTo(Partial::class);
+    }
+
+    /**
+     * Relationship to Grades.
+     */
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class);
     }
 
     /**

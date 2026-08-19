@@ -93,6 +93,7 @@
                         <th>Estado Persistido</th>
                         <th>Publicación</th>
                         <th>Reapertura</th>
+                        <th class="pe-4 text-end">Acción</th>
                     </tr>
                 </thead>
                 <tbody class="fs-7">
@@ -144,6 +145,11 @@
                                 @else
                                     <span class="text-muted fs-8">-</span>
                                 @endif
+                            </td>
+                            <td class="pe-4 text-end">
+                                <a href="{{ route('admin.partial-publications.show', $pub) }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye"></i> Detalle
+                                </a>
                             </td>
                         </tr>
                     @empty

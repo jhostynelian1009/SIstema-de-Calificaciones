@@ -91,4 +91,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(TeachingAssignment::class, 'teacher_id');
     }
+
+    /**
+     * Get grades received by a student user.
+     */
+    public function receivedGrades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'student_id');
+    }
+
+    /**
+     * Get grades assigned by a teacher user.
+     */
+    public function assignedGrades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'graded_by');
+    }
 }

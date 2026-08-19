@@ -143,16 +143,18 @@ class PartialPublicationStateTest extends TestCase
         $this->assertDatabaseCount('partial_publications', 2);
     }
 
-    public function test_seeder_creates_12_draft_publication_rows()
+    public function test_seeder_creates_12_publication_rows_with_two_published()
     {
         $this->seed(DatabaseSeeder::class);
 
         $this->assertDatabaseCount('partial_publications', 12);
-        $this->assertDatabaseCount('audit_logs', 0); // No state publication transitions logged yet
+        $this->assertDatabaseCount('audit_logs', 2); // Math Octavo A P1 & P2 published by PublicationSeeder
 
-        // Ensure all are in draft
         $draftCount = PartialPublication::where('status', PublicationStatus::Draft)->count();
-        $this->assertEquals(12, $draftCount);
+        $publishedCount = PartialPublication::where('status', PublicationStatus::Published)->count();
+
+        $this->assertEquals(10, $draftCount);
+        $this->assertEquals(2, $publishedCount);
     }
 
     public function test_admin_can_access_partial_publications_and_filter()
