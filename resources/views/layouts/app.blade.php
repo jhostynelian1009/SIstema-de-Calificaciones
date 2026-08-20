@@ -108,7 +108,12 @@
                         @elseif(Auth::user()->isStudent())
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}" href="{{ route('student.dashboard') }}">
-                                    <i class="bi bi-card-checklist me-1"></i> Mis Calificaciones
+                                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('student.grades.*') ? 'active' : '' }}" href="{{ route('student.grades.index') }}">
+                                    <i class="bi bi-journal-check me-1"></i> Mis Calificaciones
                                 </a>
                             </li>
                         @endif

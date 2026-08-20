@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
+use App\Http\Controllers\Student\GradeController as StudentGradeController;
 use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
@@ -154,6 +155,10 @@ Route::middleware(['auth', 'active'])->group(function () {
     // Student Area
     Route::middleware(['role:student'])->prefix('student')->as('student.')->group(function () {
         Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/grades', [StudentGradeController::class, 'index'])->name('grades.index');
+        Route::get('/grades/periods/{academicPeriod}', [StudentGradeController::class, 'period'])->name('grades.period');
+        Route::get('/grades/periods/{academicPeriod}/subjects/{teachingAssignment}', [StudentGradeController::class, 'subject'])->name('grades.subject');
+        Route::get('/grades/periods/{academicPeriod}/print', [StudentGradeController::class, 'print'])->name('grades.print');
     });
 
     // Profile Management

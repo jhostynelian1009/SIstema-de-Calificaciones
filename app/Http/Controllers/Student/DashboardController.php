@@ -3,34 +3,30 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\AcademicPeriod;
-use App\Models\Enrollment;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Student\StudentDashboardService;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display the Student Dashboard with active period and enrollment info.
-     */
-    public function index(): View
+    protected StudentDashboardService $dashboardService;
+
+    public function __construct(StudentDashboardService $dashboardService)
     {
-        $user = Auth::user();
+        $this->dashboardService = $dashboardService;
+    }
 
-        $activePeriod = AcademicPeriod::where('active', true)->first();
+    /**
+     * Display the Student Dashboard with scoped metrics and quick actions.
+     */
+    public function index(Request $request)
+    {
+        $student = $request->user();
+        $metrics = $this->dashboardService->getMetrics($student);
 
-        $enrollment = null;
-        if ($activePeriod) {
-            $enrollment = Enrollment::with('course')
-                ->where('student_id', $user->id)
-                ->where('academic_period_id', $activePeriod->id)
-                ->first();
-        }
-
-        return view('student.dashboard', [
-            'user' => $user,
-            'activePeriod' => $activePeriod,
-            'enrollment' => $enrollment,
-        ]);
+        return response()
+            ->view('student.dashboard', compact('metrics'))
+            ->header('Cache-Control', 'private, no-store')
+            ->header('Pragma', 'no-cache')
+            ->header('X-Robots-Tag', 'noindex, nofollow');
     }
 }
