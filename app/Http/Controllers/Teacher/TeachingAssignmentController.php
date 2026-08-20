@@ -13,24 +13,67 @@ use Illuminate\Http\Request;
 class TeachingAssignmentController extends Controller
 {
     /**
-     * Display a listing of active teaching assignments assigned to the current teacher.
+     * Display a listing of active and historical teaching assignments assigned to the current teacher.
      */
     public function index(Request $request)
     {
         $teacher = $request->user();
 
-        $assignments = TeachingAssignment::with([
+        $query = TeachingAssignment::with([
             'course',
             'subject',
             'academicPeriod',
             'partialPublications.partial',
         ])
-            ->assignedTo($teacher)
-            ->active()
-            ->latest()
-            ->paginate(15);
+        ->assignedTo($teacher);
 
-        // Ensure publication draft states exist for teacher's active assignments
+        // Search filter (course name/code or subject name/code)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('course', function ($cq) use ($search) {
+                    $cq->where('name', 'like', "%{$search}%")
+                       ->orWhere('code', 'like', "%{$search}%");
+                })->orWhereHas('subject', function ($sq) use ($search) {
+                    $sq->where('name', 'like', "%{$search}%")
+                       ->orWhere('code', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        // Period filter
+        if ($request->filled('academic_period_id')) {
+            $query->where('academic_period_id', $request->input('academic_period_id'));
+        }
+
+        // Course filter
+        if ($request->filled('course_id')) {
+            $query->where('course_id', $request->input('course_id'));
+        }
+
+        // Subject filter
+        if ($request->filled('subject_id')) {
+            $query->where('subject_id', $request->input('subject_id'));
+        }
+
+        // Active status filter (Default to active assignments if filter not provided)
+        if ($request->filled('active')) {
+            $query->where('active', $request->input('active') === '1');
+        } else {
+            $query->active();
+        }
+
+        // Publication status filter
+        if ($request->filled('publication_status')) {
+            $status = $request->input('publication_status');
+            $query->whereHas('partialPublications', function ($pq) use ($status) {
+                $pq->where('status', $status);
+            });
+        }
+
+        $assignments = $query->latest()->paginate(25)->withQueryString();
+
+        // Ensure publication draft states exist for teacher's assignments
         $publicationService = app(PartialPublicationStateService::class);
         foreach ($assignments as $assignment) {
             if ($assignment->partialPublications->isEmpty()) {
@@ -39,17 +82,23 @@ class TeachingAssignmentController extends Controller
             }
         }
 
-        return view('teacher.assignments.index', compact('assignments'));
+        // Available filter options for teacher (active assignments only)
+        $teacherAssignments = TeachingAssignment::assignedTo($teacher)->active()->with(['academicPeriod', 'course', 'subject'])->get();
+        $periods = $teacherAssignments->pluck('academicPeriod')->unique('id')->filter();
+        $courses = $teacherAssignments->pluck('course')->unique('id')->filter();
+        $subjects = $teacherAssignments->pluck('subject')->unique('id')->filter();
+
+        return view('teacher.assignments.index', compact('assignments', 'periods', 'courses', 'subjects'));
     }
 
     /**
-     * Display details of a specific teaching assignment, partial activity summaries, and active enrolled students.
+     * Display comprehensive details of a specific teaching assignment, partial readiness, and paginated student list.
      */
-    public function show(TeachingAssignment $assignment)
+    public function show(Request $request, TeachingAssignment $assignment)
     {
         $this->authorize('view', $assignment);
 
-        $assignment->load(['course', 'subject', 'academicPeriod', 'partialPublications.partial']);
+        $assignment->load(['course', 'subject', 'academicPeriod', 'partialPublications.partial', 'teacher']);
 
         // Ensure publication states exist
         if ($assignment->partialPublications->isEmpty()) {
@@ -70,18 +119,29 @@ class TeachingAssignmentController extends Controller
             }
         }
 
-        // Load active enrolled students for the assignment's course & period
-        $students = Enrollment::with('student')
+        // Student list pagination & search (active enrollments & active students only)
+        $search = $request->input('search');
+        $enrollmentQuery = Enrollment::with('student')
             ->forCourse($assignment->course_id)
             ->forPeriod($assignment->academic_period_id)
             ->active()
-            ->whereHas('student', function ($q) {
-                $q->where('active', true);
-            })
-            ->get()
-            ->pluck('student')
-            ->sortBy('name');
+            ->whereHas('student', function ($sq) use ($search) {
+                $sq->where('active', true);
+                if ($search) {
+                    $sq->where(function ($s) use ($search) {
+                        $s->where('name', 'like', "%{$search}%")
+                          ->orWhere('email', 'like', "%{$search}%");
+                    });
+                }
+            });
 
-        return view('teacher.assignments.show', compact('assignment', 'students', 'partialSummaries', 'readinessMap'));
+        $enrollments = $enrollmentQuery->paginate(25)->withQueryString();
+
+        return view('teacher.assignments.show', compact(
+            'assignment',
+            'enrollments',
+            'partialSummaries',
+            'readinessMap'
+        ));
     }
 }

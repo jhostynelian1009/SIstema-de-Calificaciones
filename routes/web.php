@@ -8,8 +8,10 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
 use App\Http\Controllers\Admin\GradeController as AdminGradeController;
 use App\Http\Controllers\Admin\PartialPublicationController;
+use App\Http\Controllers\Admin\ResultController as AdminResultController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeachingAssignmentController as AdminTeachingAssignmentController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
 use App\Http\Controllers\Teacher\PartialPublicationController as TeacherPartialPublicationController;
+use App\Http\Controllers\Teacher\ResultController as TeacherResultController;
 use App\Http\Controllers\Teacher\TeachingAssignmentController as TeacherTeachingAssignmentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +48,16 @@ Route::middleware(['auth', 'active'])->group(function () {
     // Admin Area
     Route::middleware(['role:admin'])->prefix('admin')->as('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Users Management
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
+        Route::patch('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
 
         // Courses Management
         Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
@@ -98,6 +111,10 @@ Route::middleware(['auth', 'active'])->group(function () {
         // Grades Monitoring (Read-Only)
         Route::get('/grades', [AdminGradeController::class, 'index'])->name('grades.index');
 
+        // Results Supervision (Read-Only)
+        Route::get('/results', [AdminResultController::class, 'index'])->name('results.index');
+        Route::get('/results/student/{student}', [AdminResultController::class, 'student'])->name('results.student');
+
         // Audit Logs Monitoring (Read-Only)
         Route::get('/audit-logs', [AdminAuditLogController::class, 'index'])->name('audit-logs.index');
     });
@@ -126,6 +143,12 @@ Route::middleware(['auth', 'active'])->group(function () {
         // Publication Preview & Publish Flow
         Route::get('/assignments/{assignment}/partials/{partial}/preview', [TeacherPartialPublicationController::class, 'preview'])->name('partial-publications.preview');
         Route::post('/assignments/{assignment}/partials/{partial}/publish', [TeacherPartialPublicationController::class, 'publish'])->name('partial-publications.publish');
+
+        // Teacher Results Management
+        Route::get('/results', [TeacherResultController::class, 'index'])->name('results.index');
+        Route::get('/results/assignment/{assignment}', [TeacherResultController::class, 'assignment'])->name('results.assignment');
+        Route::get('/results/assignment/{assignment}/student/{student}', [TeacherResultController::class, 'student'])->name('results.student');
+        Route::get('/results/assignment/{assignment}/print', [TeacherResultController::class, 'print'])->name('results.print');
     });
 
     // Student Area

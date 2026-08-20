@@ -35,7 +35,7 @@ class GradeController extends Controller
     }
 
     /**
-     * Display grading matrix view for a teaching assignment and partial.
+     * Display grading matrix view for a teaching assignment and partial, paginated at 25 students per page.
      */
     public function index(TeachingAssignment $assignment, Partial $partial, Request $request)
     {
@@ -53,14 +53,23 @@ class GradeController extends Controller
         $selectedActivityId = $request->query('activity_id');
         $selectedActivity = $activities->firstWhere('id', (int) $selectedActivityId) ?? $activities->first();
 
-        $enrolledStudents = Enrollment::where('course_id', $assignment->course_id)
+        $search = $request->input('search');
+        $enrollmentQuery = Enrollment::where('course_id', $assignment->course_id)
             ->where('academic_period_id', $assignment->academic_period_id)
             ->where('active', true)
-            ->whereHas('student', fn ($q) => $q->where('active', true))
-            ->with('student')
-            ->get()
-            ->pluck('student')
-            ->sortBy('name');
+            ->whereHas('student', function ($q) use ($search) {
+                $q->where('active', true);
+                if ($search) {
+                    $q->where(function ($sq) use ($search) {
+                        $sq->where('name', 'like', "%{$search}%")
+                           ->orWhere('email', 'like', "%{$search}%");
+                    });
+                }
+            })
+            ->with('student');
+
+        $studentsPaginated = $enrollmentQuery->paginate(25)->withQueryString();
+        $enrolledStudents = $studentsPaginated->pluck('student')->filter();
 
         $gradesMap = collect();
         $activityMetrics = null;
@@ -68,6 +77,7 @@ class GradeController extends Controller
         if ($selectedActivity) {
             $grades = Grade::where('activity_id', $selectedActivity->id)->get();
             $gradesMap = $grades->keyBy('student_id');
+            // Calculated across ALL enrolled active students (global metrics)
             $activityMetrics = $this->completionService->calculateForActivity($selectedActivity);
         }
 
@@ -85,6 +95,7 @@ class GradeController extends Controller
             'partial',
             'activities',
             'selectedActivity',
+            'studentsPaginated',
             'enrolledStudents',
             'gradesMap',
             'partialMetrics',
@@ -159,11 +170,16 @@ class GradeController extends Controller
                 ? "Se procesaron {$count} calificaciones correctamente."
                 : 'No se realizaron cambios en las calificaciones.';
 
-            return redirect()->route('teacher.assignments.partials.grades.index', [
+            $redirectParams = array_filter([
                 'assignment' => $assignment->id,
                 'partial' => $partial->id,
                 'activity_id' => $activity->id,
-            ])->with('success', $msg);
+                'search' => $request->input('search'),
+                'page' => $request->input('page'),
+            ]);
+
+            return redirect()->route('teacher.assignments.partials.grades.index', $redirectParams)
+                ->with('success', $msg);
         } catch (Exception $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }

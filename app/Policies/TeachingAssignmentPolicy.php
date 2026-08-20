@@ -16,7 +16,7 @@ class TeachingAssignmentPolicy
     }
 
     /**
-     * Determine whether the user can view the specific teaching assignment.
+     * Determine whether the user can view the specific teaching assignment (including historical inactive ones).
      */
     public function view(User $user, TeachingAssignment $assignment): bool
     {
@@ -25,7 +25,7 @@ class TeachingAssignmentPolicy
         }
 
         if ($user->isTeacher()) {
-            return (int) $user->id === (int) $assignment->teacher_id && $assignment->active;
+            return (int) $user->id === (int) $assignment->teacher_id;
         }
 
         return false;

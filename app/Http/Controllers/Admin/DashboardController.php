@@ -2,46 +2,41 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\PublicationStatus;
 use App\Http\Controllers\Controller;
-use App\Models\AcademicPeriod;
-use App\Models\Course;
-use App\Models\Enrollment;
-use App\Models\PartialPublication;
-use App\Models\Subject;
-use App\Models\TeachingAssignment;
-use App\Models\User;
+use App\Services\Admin\AdminDashboardService;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
+    protected AdminDashboardService $dashboardService;
+
+    public function __construct(AdminDashboardService $dashboardService)
+    {
+        $this->dashboardService = $dashboardService;
+    }
+
     /**
      * Show the admin dashboard with core metric counts and active period status.
      */
     public function index(): View
     {
-        $coursesCount = Course::count();
-        $subjectsCount = Subject::count();
-        $periodsCount = AcademicPeriod::count();
-        $activePeriod = AcademicPeriod::where('active', true)->with('partials')->first();
-        $usersCount = User::count();
+        $metrics = $this->dashboardService->getMetrics();
 
-        $activeEnrollmentsCount = 0;
-        $activeAssignmentsCount = 0;
-
-        if ($activePeriod) {
-            $activeEnrollmentsCount = Enrollment::where('academic_period_id', $activePeriod->id)
-                ->where('active', true)
-                ->count();
-
-            $activeAssignmentsCount = TeachingAssignment::where('academic_period_id', $activePeriod->id)
-                ->where('active', true)
-                ->count();
-        }
-
-        $draftCount = PartialPublication::where('status', PublicationStatus::Draft)->count();
-        $publishedCount = PartialPublication::where('status', PublicationStatus::Published)->count();
-        $reopenedCount = PartialPublication::where('status', PublicationStatus::Reopened)->count();
+        // Extract variables for view compatibility
+        $coursesCount = $metrics['structure']['active_courses'];
+        $subjectsCount = $metrics['structure']['active_subjects'];
+        $activePeriod = $metrics['structure']['active_period'];
+        $periodsCount = \App\Models\AcademicPeriod::count();
+        $usersCount = $metrics['users']['total_users'];
+        $activeEnrollmentsCount = $metrics['structure']['active_enrollments'];
+        $activeAssignmentsCount = $metrics['structure']['active_assignments'];
+        $draftCount = $metrics['evaluation']['draft_partials'];
+        $publishedCount = $metrics['evaluation']['published_partials'];
+        $reopenedCount = $metrics['evaluation']['reopened_partials'];
+        $readyCount = $metrics['evaluation']['ready_partials_count'];
+        $incompleteCount = $metrics['evaluation']['incomplete_partials_count'];
+        $alerts = $metrics['alerts'];
+        $userMetrics = $metrics['users'];
 
         return view('admin.dashboard', compact(
             'coursesCount',
@@ -53,7 +48,11 @@ class DashboardController extends Controller
             'activeAssignmentsCount',
             'draftCount',
             'publishedCount',
-            'reopenedCount'
+            'reopenedCount',
+            'readyCount',
+            'incompleteCount',
+            'alerts',
+            'userMetrics'
         ));
     }
 }

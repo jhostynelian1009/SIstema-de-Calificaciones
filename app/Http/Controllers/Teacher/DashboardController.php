@@ -2,56 +2,37 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Enums\PublicationStatus;
 use App\Http\Controllers\Controller;
-use App\Models\PartialPublication;
-use App\Models\TeachingAssignment;
 use App\Services\Grades\PartialPublicationStateService;
+use App\Services\Teacher\TeacherDashboardService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    protected TeacherDashboardService $dashboardService;
+
+    public function __construct(TeacherDashboardService $dashboardService)
+    {
+        $this->dashboardService = $dashboardService;
+    }
+
     /**
-     * Display the Teacher Dashboard with active assignments and publication state counts.
+     * Display the Teacher Dashboard with active assignments, publication state counts, and priority actions.
      */
     public function index(): View
     {
         $user = Auth::user();
 
-        $assignments = TeachingAssignment::with(['course', 'subject', 'academicPeriod', 'partialPublications.partial'])
-            ->assignedTo($user)
-            ->active()
-            ->get();
-
         // Ensure publication states are initialized for all teacher active assignments
+        $assignments = $user->teachingAssignments()->active()->get();
         $publicationService = app(PartialPublicationStateService::class);
         foreach ($assignments as $assignment) {
-            if ($assignment->partialPublications->isEmpty()) {
-                $publicationService->ensureForAssignment($assignment);
-            }
+            $publicationService->ensureForAssignment($assignment);
         }
 
-        $assignmentIds = $assignments->pluck('id');
+        $metrics = $this->dashboardService->getMetrics($user);
 
-        $draftCount = PartialPublication::whereIn('teaching_assignment_id', $assignmentIds)
-            ->where('status', PublicationStatus::Draft)
-            ->count();
-
-        $publishedCount = PartialPublication::whereIn('teaching_assignment_id', $assignmentIds)
-            ->where('status', PublicationStatus::Published)
-            ->count();
-
-        $reopenedCount = PartialPublication::whereIn('teaching_assignment_id', $assignmentIds)
-            ->where('status', PublicationStatus::Reopened)
-            ->count();
-
-        return view('teacher.dashboard', [
-            'user' => $user,
-            'assignments' => $assignments,
-            'draftCount' => $draftCount,
-            'publishedCount' => $publishedCount,
-            'reopenedCount' => $reopenedCount,
-        ]);
+        return view('teacher.dashboard', array_merge(['user' => $user], $metrics));
     }
 }

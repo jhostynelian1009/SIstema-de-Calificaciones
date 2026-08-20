@@ -107,4 +107,38 @@ class User extends Authenticatable
     {
         return $this->hasMany(Grade::class, 'graded_by');
     }
+
+    /**
+     * Get publications published by this user.
+     */
+    public function publishedPublications(): HasMany
+    {
+        return $this->hasMany(PartialPublication::class, 'published_by');
+    }
+
+    /**
+     * Get publications reopened by this user.
+     */
+    public function reopenedPublications(): HasMany
+    {
+        return $this->hasMany(PartialPublication::class, 'reopened_by');
+    }
+
+    /**
+     * Check if student user has academic history (enrollments or received grades).
+     */
+    public function hasStudentHistory(): bool
+    {
+        return $this->studentEnrollments()->exists() || $this->receivedGrades()->exists();
+    }
+
+    /**
+     * Check if teacher user has academic history (teaching assignments, assigned grades, or publications).
+     */
+    public function hasTeacherHistory(): bool
+    {
+        return $this->teachingAssignments()->exists()
+            || $this->assignedGrades()->exists()
+            || $this->publishedPublications()->exists();
+    }
 }
