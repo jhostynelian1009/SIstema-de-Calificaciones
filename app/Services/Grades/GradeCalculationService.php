@@ -10,7 +10,6 @@ use App\Models\Partial;
 use App\Models\PartialPublication;
 use App\Models\TeachingAssignment;
 use App\Models\User;
-use Illuminate\Support\Collection;
 
 class GradeCalculationService
 {

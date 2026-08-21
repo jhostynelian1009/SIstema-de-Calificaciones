@@ -41,17 +41,17 @@ class PartialPublicationStateService
                 ->get();
 
             if ($partials->count() !== 2) {
-                throw new InvalidArgumentException("El período académico debe poseer exactamente 2 parciales configurados.");
+                throw new InvalidArgumentException('El período académico debe poseer exactamente 2 parciales configurados.');
             }
 
             $numbers = $partials->pluck('number')->toArray();
             if ($numbers !== [1, 2]) {
-                throw new InvalidArgumentException("Los parciales del período académico deben corresponder exactamente a los números 1 y 2.");
+                throw new InvalidArgumentException('Los parciales del período académico deben corresponder exactamente a los números 1 y 2.');
             }
 
             foreach ($partials as $partial) {
                 if ((float) $partial->weight !== 50.00) {
-                    throw new InvalidArgumentException("Cada parcial del período académico debe poseer un peso de 50.00%.");
+                    throw new InvalidArgumentException('Cada parcial del período académico debe poseer un peso de 50.00%.');
                 }
 
                 // Strict Period Coherence check

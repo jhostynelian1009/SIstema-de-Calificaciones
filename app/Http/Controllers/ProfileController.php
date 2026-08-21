@@ -27,7 +27,7 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request): RedirectResponse
     {
         $user = $request->user();
-        
+
         // Explicitly update only validated name and email to prevent mass assignment privilege escalation
         $user->fill($request->only(['name', 'email']));
 

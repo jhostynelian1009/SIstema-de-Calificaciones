@@ -20,7 +20,7 @@ class ActivitySeeder extends Seeder
         $matematicas = Subject::where('code', 'MAT8')->orWhere('name', 'Matemáticas')->first();
         $lengua = Subject::where('code', 'LIT8')->orWhere('name', 'Lengua y Literatura')->first();
 
-        if (!$octavoA) {
+        if (! $octavoA) {
             return;
         }
 

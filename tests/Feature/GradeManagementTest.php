@@ -6,7 +6,6 @@ use App\Enums\PublicationStatus;
 use App\Enums\UserRole;
 use App\Models\AcademicPeriod;
 use App\Models\Activity;
-use App\Models\AuditLog;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Grade;
@@ -17,6 +16,7 @@ use App\Models\TeachingAssignment;
 use App\Models\User;
 use App\Services\Grades\GradeCompletionService;
 use App\Services\Grades\GradeService;
+use App\Services\Grades\PartialPublicationStateService;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
@@ -51,7 +51,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->where('number', 1)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         $activity = Activity::create([
             'teaching_assignment_id' => $assignment->id,
@@ -102,7 +102,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         $activity = Activity::create([
             'teaching_assignment_id' => $assignment->id,
@@ -145,7 +145,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         $activity = Activity::create([
             'teaching_assignment_id' => $assignment->id,
@@ -214,7 +214,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         $activity = Activity::create([
             'teaching_assignment_id' => $assignment->id,
@@ -286,7 +286,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         $activity = Activity::create([
             'teaching_assignment_id' => $assignment->id,
@@ -339,7 +339,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         $activity = Activity::create([
             'teaching_assignment_id' => $assignment->id,
@@ -385,7 +385,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         // Update status to Published
         PartialPublication::where('teaching_assignment_id', $assignment->id)
@@ -430,7 +430,7 @@ class GradeManagementTest extends TestCase
         ]);
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         // Update status to Reopened
         PartialPublication::where('teaching_assignment_id', $assignment->id)

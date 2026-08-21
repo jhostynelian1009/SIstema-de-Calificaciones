@@ -26,7 +26,7 @@ class TeachingAssignmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$teacher) {
+            if (! $teacher) {
                 throw ValidationException::withMessages([
                     'teacher_id' => ['El usuario seleccionado no es un docente activo válido.'],
                 ]);
@@ -36,7 +36,7 @@ class TeachingAssignmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$course) {
+            if (! $course) {
                 throw ValidationException::withMessages([
                     'course_id' => ['El curso seleccionado no está activo o no existe.'],
                 ]);
@@ -46,7 +46,7 @@ class TeachingAssignmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$subject) {
+            if (! $subject) {
                 throw ValidationException::withMessages([
                     'subject_id' => ['La asignatura seleccionada no está activa o no existe.'],
                 ]);
@@ -56,7 +56,7 @@ class TeachingAssignmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$period) {
+            if (! $period) {
                 throw ValidationException::withMessages([
                     'academic_period_id' => ['El período académico seleccionado no está activo o no existe.'],
                 ]);
@@ -99,7 +99,7 @@ class TeachingAssignmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$teacher) {
+            if (! $teacher) {
                 throw ValidationException::withMessages([
                     'teacher_id' => ['El usuario seleccionado no es un docente activo válido.'],
                 ]);
@@ -137,26 +137,26 @@ class TeachingAssignmentService
     public function toggleStatus(TeachingAssignment $assignment): TeachingAssignment
     {
         return DB::transaction(function () use ($assignment) {
-            if (!$assignment->active) {
-                if (!$assignment->teacher?->active || $assignment->teacher?->role !== UserRole::Teacher) {
+            if (! $assignment->active) {
+                if (! $assignment->teacher?->active || $assignment->teacher?->role !== UserRole::Teacher) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la asignación porque el docente asignado está inactivo.'],
                     ]);
                 }
 
-                if (!$assignment->course?->active) {
+                if (! $assignment->course?->active) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la asignación porque el curso está inactivo.'],
                     ]);
                 }
 
-                if (!$assignment->subject?->active) {
+                if (! $assignment->subject?->active) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la asignación porque la asignatura está inactiva.'],
                     ]);
                 }
 
-                if (!$assignment->academicPeriod?->active) {
+                if (! $assignment->academicPeriod?->active) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la asignación porque el período académico está inactivo.'],
                     ]);
@@ -167,7 +167,7 @@ class TeachingAssignmentService
             }
 
             $assignment->update([
-                'active' => !$assignment->active,
+                'active' => ! $assignment->active,
             ]);
 
             return $assignment->fresh();

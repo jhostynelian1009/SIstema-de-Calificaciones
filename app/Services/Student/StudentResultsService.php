@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 class StudentResultsService
 {
     protected PublishedResultsService $publishedResultsService;
+
     protected GradeCalculationService $gradeCalculationService;
 
     public function __construct(

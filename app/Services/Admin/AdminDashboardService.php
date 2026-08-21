@@ -95,7 +95,7 @@ class AdminDashboardService
                     $pub = $publications->first(fn ($p) => $p->teaching_assignment_id === $assignment->id && $p->partial_id === $partial->id);
 
                     if ($readiness['is_ready']) {
-                        if (!$pub || $pub->status !== PublicationStatus::Published) {
+                        if (! $pub || $pub->status !== PublicationStatus::Published) {
                             $readyPartialsCount++;
                             $readyUnpublishedList->push([
                                 'assignment' => $assignment,
@@ -104,7 +104,7 @@ class AdminDashboardService
                             ]);
                         }
                     } else {
-                        if (!$pub || $pub->status !== PublicationStatus::Published) {
+                        if (! $pub || $pub->status !== PublicationStatus::Published) {
                             $incompletePartialsCount++;
                         }
                         if (in_array('Las actividades registradas no suman el 100% (suma actual: 100.00%).', $readiness['pending_issues']) || str_contains(implode(' ', $readiness['pending_issues']), 'suman el 100%')) {

@@ -4,12 +4,10 @@ namespace App\Services\Teacher;
 
 use App\Enums\PublicationStatus;
 use App\Models\Enrollment;
-use App\Models\Partial;
 use App\Models\PartialPublication;
 use App\Models\TeachingAssignment;
 use App\Models\User;
 use App\Services\Grades\PartialReadinessService;
-use Illuminate\Support\Collection;
 
 class TeacherDashboardService
 {
@@ -32,9 +30,9 @@ class TeacherDashboardService
             'partialPublications.partial',
             'activities.grades',
         ])
-        ->assignedTo($teacher)
-        ->active()
-        ->get();
+            ->assignedTo($teacher)
+            ->active()
+            ->get();
 
         $assignmentIds = $assignments->pluck('id');
         $courseIds = $assignments->pluck('course_id')->unique();
@@ -61,7 +59,7 @@ class TeacherDashboardService
 
         foreach ($assignments as $assignment) {
             $period = $assignment->academicPeriod;
-            if (!$period) {
+            if (! $period) {
                 continue;
             }
 
@@ -78,7 +76,7 @@ class TeacherDashboardService
                         'priority' => 1,
                         'type' => 'reopened',
                         'title' => "Parcial {$partial->number} reabierto en {$assignment->subject?->name} ({$assignment->course?->code})",
-                        'description' => "Motivo: " . ($pub->reopen_reason ?? 'Requiere corrección de notas o actividades.'),
+                        'description' => 'Motivo: '.($pub->reopen_reason ?? 'Requiere corrección de notas o actividades.'),
                         'assignment' => $assignment,
                         'partial' => $partial,
                         'url' => route('teacher.partial-publications.preview', [$assignment, $partial]),

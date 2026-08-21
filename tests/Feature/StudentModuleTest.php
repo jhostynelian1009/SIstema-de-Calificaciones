@@ -9,7 +9,6 @@ use App\Models\Activity;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Grade;
-use App\Models\Partial;
 use App\Models\PartialPublication;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;

@@ -17,14 +17,14 @@ class TeachingAssignmentSeeder extends Seeder
     public function run(): void
     {
         $period = AcademicPeriod::where('active', true)->first();
-        if (!$period) {
+        if (! $period) {
             return;
         }
 
         $teacher1 = User::where('email', 'docente@calificaciones.local')->first();
         $teacher2 = User::where('email', 'docente2@calificaciones.local')->first();
 
-        if (!$teacher1 || !$teacher2) {
+        if (! $teacher1 || ! $teacher2) {
             return;
         }
 
@@ -35,7 +35,7 @@ class TeachingAssignmentSeeder extends Seeder
         $lyl = Subject::where('code', 'LYL')->first();
         $ccnn = Subject::where('code', 'CCNN')->first();
 
-        if (!$course8 || !$course9 || !$mat || !$lyl || !$ccnn) {
+        if (! $course8 || ! $course9 || ! $mat || ! $lyl || ! $ccnn) {
             return;
         }
 

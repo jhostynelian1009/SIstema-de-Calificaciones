@@ -14,7 +14,7 @@ class AcademicPeriodService
     public function createPeriod(array $data): AcademicPeriod
     {
         return DB::transaction(function () use ($data) {
-            $active = !empty($data['active']);
+            $active = ! empty($data['active']);
 
             if ($active) {
                 AcademicPeriod::where('active', true)->update(['active' => false]);
@@ -43,7 +43,7 @@ class AcademicPeriodService
                 'weight' => 50.00,
             ]);
 
-            if (!$p1 || !$p2) {
+            if (! $p1 || ! $p2) {
                 throw new \RuntimeException('No se pudieron generar los parciales P1 y P2.');
             }
 
@@ -71,9 +71,9 @@ class AcademicPeriodService
     public function updatePeriod(AcademicPeriod $period, array $data): AcademicPeriod
     {
         return DB::transaction(function () use ($period, $data) {
-            $active = !empty($data['active']);
+            $active = ! empty($data['active']);
 
-            if ($active && !$period->active) {
+            if ($active && ! $period->active) {
                 AcademicPeriod::where('active', true)
                     ->where('id', '!=', $period->id)
                     ->update(['active' => false]);

@@ -7,7 +7,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class EnrollmentManagementTest extends TestCase
@@ -166,6 +166,6 @@ class EnrollmentManagementTest extends TestCase
             'active' => false,
         ]);
 
-        $this->assertFalse(\Illuminate\Support\Facades\Route::has('admin.enrollments.destroy'));
+        $this->assertFalse(Route::has('admin.enrollments.destroy'));
     }
 }

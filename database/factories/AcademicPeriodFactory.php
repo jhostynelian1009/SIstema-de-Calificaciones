@@ -19,10 +19,11 @@ class AcademicPeriodFactory extends Factory
     public function definition(): array
     {
         $startYear = fake()->unique()->numberBetween(2025, 2099);
+
         return [
-            'name' => "Período académico {$startYear}–" . ($startYear + 1),
+            'name' => "Período académico {$startYear}–".($startYear + 1),
             'starts_at' => "{$startYear}-09-01",
-            'ends_at' => ($startYear + 1) . "-07-31",
+            'ends_at' => ($startYear + 1).'-07-31',
             'active' => false,
         ];
     }

@@ -25,7 +25,7 @@ class CourseController extends Controller
             $search = trim($request->input('search'));
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('code', 'like', "%{$search}%");
+                    ->orWhere('code', 'like', "%{$search}%");
             });
         }
 
@@ -94,7 +94,7 @@ class CourseController extends Controller
     {
         $this->authorize('toggleStatus', $course);
 
-        $course->update(['active' => !$course->active]);
+        $course->update(['active' => ! $course->active]);
 
         $statusText = $course->active ? 'activado' : 'desactivado';
 

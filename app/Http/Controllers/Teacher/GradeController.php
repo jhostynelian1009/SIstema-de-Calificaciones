@@ -21,7 +21,9 @@ use Illuminate\Http\Request;
 class GradeController extends Controller
 {
     protected GradeService $gradeService;
+
     protected GradeCompletionService $completionService;
+
     protected ActivityService $activityService;
 
     public function __construct(
@@ -62,7 +64,7 @@ class GradeController extends Controller
                 if ($search) {
                     $q->where(function ($sq) use ($search) {
                         $sq->where('name', 'like', "%{$search}%")
-                           ->orWhere('email', 'like', "%{$search}%");
+                            ->orWhere('email', 'like', "%{$search}%");
                     });
                 }
             })

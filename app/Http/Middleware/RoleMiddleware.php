@@ -13,8 +13,7 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  ...$roles
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
@@ -28,6 +27,7 @@ class RoleMiddleware
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
+
             return redirect()->route('login')->withErrors([
                 'email' => 'Las credenciales proporcionadas son incorrectas o la cuenta no se encuentra disponible.',
             ]);

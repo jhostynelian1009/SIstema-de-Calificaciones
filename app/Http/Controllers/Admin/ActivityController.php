@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\AcademicPeriod;
 use App\Models\Activity;
@@ -9,7 +10,6 @@ use App\Models\Course;
 use App\Models\Partial;
 use App\Models\Subject;
 use App\Models\User;
-use App\Enums\UserRole;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller

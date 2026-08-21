@@ -18,8 +18,8 @@ class AcademicPeriodSeeder extends Seeder
 
         $period = AcademicPeriod::where('name', $periodName)->first();
 
-        if (!$period) {
-            $service = new AcademicPeriodService();
+        if (! $period) {
+            $service = new AcademicPeriodService;
             $service->createPeriod([
                 'name' => $periodName,
                 'starts_at' => '2026-09-01',

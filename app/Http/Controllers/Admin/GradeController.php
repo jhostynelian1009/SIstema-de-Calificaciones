@@ -9,7 +9,6 @@ use App\Models\Grade;
 use App\Models\Partial;
 use App\Models\Subject;
 use App\Models\User;
-
 use Illuminate\Http\Request;
 
 class GradeController extends Controller

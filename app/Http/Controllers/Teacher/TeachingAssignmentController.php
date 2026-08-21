@@ -25,7 +25,7 @@ class TeachingAssignmentController extends Controller
             'academicPeriod',
             'partialPublications.partial',
         ])
-        ->assignedTo($teacher);
+            ->assignedTo($teacher);
 
         // Search filter (course name/code or subject name/code)
         if ($request->filled('search')) {
@@ -33,10 +33,10 @@ class TeachingAssignmentController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->whereHas('course', function ($cq) use ($search) {
                     $cq->where('name', 'like', "%{$search}%")
-                       ->orWhere('code', 'like', "%{$search}%");
+                        ->orWhere('code', 'like', "%{$search}%");
                 })->orWhereHas('subject', function ($sq) use ($search) {
                     $sq->where('name', 'like', "%{$search}%")
-                       ->orWhere('code', 'like', "%{$search}%");
+                        ->orWhere('code', 'like', "%{$search}%");
                 });
             });
         }
@@ -130,7 +130,7 @@ class TeachingAssignmentController extends Controller
                 if ($search) {
                     $sq->where(function ($s) use ($search) {
                         $s->where('name', 'like', "%{$search}%")
-                          ->orWhere('email', 'like', "%{$search}%");
+                            ->orWhere('email', 'like', "%{$search}%");
                     });
                 }
             });

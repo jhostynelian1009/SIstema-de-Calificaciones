@@ -16,14 +16,14 @@ class EnrollmentSeeder extends Seeder
     public function run(): void
     {
         $period = AcademicPeriod::where('active', true)->first();
-        if (!$period) {
+        if (! $period) {
             return;
         }
 
         $course8 = Course::where('code', '8VO-A')->first();
         $course9 = Course::where('code', '9NO-A')->first();
 
-        if (!$course8 || !$course9) {
+        if (! $course8 || ! $course9) {
             return;
         }
 

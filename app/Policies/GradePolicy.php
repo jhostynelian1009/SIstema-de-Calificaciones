@@ -30,6 +30,7 @@ class GradePolicy
 
         if ($user->isTeacher()) {
             $assignment = $grade->activity->teachingAssignment;
+
             return (int) $assignment->teacher_id === (int) $user->id;
         }
 

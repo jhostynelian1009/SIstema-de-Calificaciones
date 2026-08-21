@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\AcademicPeriod;
+use App\Models\Course;
 use App\Models\Partial;
+use App\Models\Subject;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -98,7 +100,7 @@ class AcademicPeriodManagementTest extends TestCase
     public function test_editing_academic_period_does_not_duplicate_partials(): void
     {
         $admin = User::factory()->admin()->create();
-        
+
         $this->actingAs($admin)->post('/admin/academic-periods', [
             'name' => 'Período Original',
             'starts_at' => '2026-09-01',
@@ -122,12 +124,12 @@ class AcademicPeriodManagementTest extends TestCase
 
     public function test_running_seeder_twice_is_idempotent(): void
     {
-        $seeder = new DatabaseSeeder();
+        $seeder = new DatabaseSeeder;
         $seeder->run();
         $seeder->run();
 
-        $this->assertEquals(2, \App\Models\Course::count());
-        $this->assertEquals(3, \App\Models\Subject::count());
+        $this->assertEquals(2, Course::count());
+        $this->assertEquals(3, Subject::count());
         $this->assertEquals(1, AcademicPeriod::count());
         $this->assertEquals(2, Partial::count());
     }

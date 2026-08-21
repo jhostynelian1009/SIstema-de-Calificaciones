@@ -25,7 +25,7 @@ class SubjectController extends Controller
             $search = trim($request->input('search'));
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('code', 'like', "%{$search}%");
+                    ->orWhere('code', 'like', "%{$search}%");
             });
         }
 
@@ -94,7 +94,7 @@ class SubjectController extends Controller
     {
         $this->authorize('toggleStatus', $subject);
 
-        $subject->update(['active' => !$subject->active]);
+        $subject->update(['active' => ! $subject->active]);
 
         $statusText = $subject->active ? 'activada' : 'desactivada';
 

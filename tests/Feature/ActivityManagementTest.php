@@ -13,6 +13,7 @@ use App\Models\Subject;
 use App\Models\TeachingAssignment;
 use App\Models\User;
 use App\Services\Grades\ActivityService;
+use App\Services\Grades\PartialPublicationStateService;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
@@ -352,7 +353,7 @@ class ActivityManagementTest extends TestCase
         $partial = Partial::where('academic_period_id', $period->id)->first();
 
         // Ensure publications exist
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         // Manually update publication state to Published
         PartialPublication::where('teaching_assignment_id', $assignment->id)
@@ -391,7 +392,7 @@ class ActivityManagementTest extends TestCase
 
         $partial = Partial::where('academic_period_id', $period->id)->first();
 
-        app(\App\Services\Grades\PartialPublicationStateService::class)->ensureForAssignment($assignment);
+        app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
 
         // Set status to Reopened
         PartialPublication::where('teaching_assignment_id', $assignment->id)

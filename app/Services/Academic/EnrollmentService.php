@@ -23,7 +23,7 @@ class EnrollmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$student) {
+            if (! $student) {
                 throw ValidationException::withMessages([
                     'student_id' => ['El usuario seleccionado no es un estudiante activo válido.'],
                 ]);
@@ -33,7 +33,7 @@ class EnrollmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$course) {
+            if (! $course) {
                 throw ValidationException::withMessages([
                     'course_id' => ['El curso seleccionado no está activo o no existe.'],
                 ]);
@@ -43,7 +43,7 @@ class EnrollmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$period) {
+            if (! $period) {
                 throw ValidationException::withMessages([
                     'academic_period_id' => ['El período académico seleccionado no está activo o no existe.'],
                 ]);
@@ -80,7 +80,7 @@ class EnrollmentService
                 ->where('active', true)
                 ->first();
 
-            if (!$course) {
+            if (! $course) {
                 throw ValidationException::withMessages([
                     'course_id' => ['El curso seleccionado no está activo o no existe.'],
                 ]);
@@ -101,21 +101,21 @@ class EnrollmentService
     public function toggleStatus(Enrollment $enrollment): Enrollment
     {
         return DB::transaction(function () use ($enrollment) {
-            if (!$enrollment->active) {
+            if (! $enrollment->active) {
                 // Check if student, course, and academic period are all active before reactivating
-                if (!$enrollment->student?->active || $enrollment->student?->role !== UserRole::Student) {
+                if (! $enrollment->student?->active || $enrollment->student?->role !== UserRole::Student) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la matrícula porque el estudiante está inactivo.'],
                     ]);
                 }
 
-                if (!$enrollment->course?->active) {
+                if (! $enrollment->course?->active) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la matrícula porque el curso asignado está inactivo.'],
                     ]);
                 }
 
-                if (!$enrollment->academicPeriod?->active) {
+                if (! $enrollment->academicPeriod?->active) {
                     throw ValidationException::withMessages([
                         'active' => ['No se puede activar la matrícula porque el período académico está inactivo.'],
                     ]);
@@ -123,7 +123,7 @@ class EnrollmentService
             }
 
             $enrollment->update([
-                'active' => !$enrollment->active,
+                'active' => ! $enrollment->active,
             ]);
 
             return $enrollment->fresh();

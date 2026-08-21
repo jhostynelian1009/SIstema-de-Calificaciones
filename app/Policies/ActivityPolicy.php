@@ -37,11 +37,11 @@ class ActivityPolicy
      */
     public function create(User $user, TeachingAssignment $assignment): bool
     {
-        if (!$user->isTeacher()) {
+        if (! $user->isTeacher()) {
             return false;
         }
 
-        if (!$assignment->active) {
+        if (! $assignment->active) {
             return false;
         }
 
@@ -53,12 +53,12 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity): bool
     {
-        if (!$user->isTeacher()) {
+        if (! $user->isTeacher()) {
             return false;
         }
 
         $assignment = $activity->teachingAssignment;
-        if (!$assignment || !$assignment->active) {
+        if (! $assignment || ! $assignment->active) {
             return false;
         }
 
@@ -70,12 +70,12 @@ class ActivityPolicy
      */
     public function toggleStatus(User $user, Activity $activity): bool
     {
-        if (!$user->isTeacher()) {
+        if (! $user->isTeacher()) {
             return false;
         }
 
         $assignment = $activity->teachingAssignment;
-        if (!$assignment || !$assignment->active) {
+        if (! $assignment || ! $assignment->active) {
             return false;
         }
 

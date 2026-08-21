@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class CourseManagementTest extends TestCase
@@ -113,7 +114,7 @@ class CourseManagementTest extends TestCase
         $admin = User::factory()->admin()->create();
         $course = Course::factory()->create();
 
-        $this->assertFalse(\Illuminate\Support\Facades\Route::has('admin.courses.destroy'));
+        $this->assertFalse(Route::has('admin.courses.destroy'));
 
         $this->actingAs($admin)->delete("/admin/courses/{$course->id}")
             ->assertStatus(405);

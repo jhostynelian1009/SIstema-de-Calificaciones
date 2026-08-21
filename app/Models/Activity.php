@@ -69,6 +69,7 @@ class Activity extends Model
     public function scopeForAssignment(Builder $query, $assignment): Builder
     {
         $id = $assignment instanceof TeachingAssignment ? $assignment->id : $assignment;
+
         return $query->where('teaching_assignment_id', $id);
     }
 
@@ -78,6 +79,7 @@ class Activity extends Model
     public function scopeForPartial(Builder $query, $partial): Builder
     {
         $id = $partial instanceof Partial ? $partial->id : $partial;
+
         return $query->where('partial_id', $id);
     }
 }

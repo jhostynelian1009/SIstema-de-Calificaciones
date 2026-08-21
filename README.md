@@ -1,156 +1,166 @@
-# Sistema de Calificaciones — Spec as a Skill
+# Sistema de Calificaciones Académicas — Spec as a Skill
 
-Sistema web académico desarrollado sobre **Laravel 12, PHP 8.2+, MySQL/MariaDB compatible, Blade y Bootstrap 5**.
-
-## Propósito
-
-El sistema permite que:
-- El **administrador** gestione la estructura académica, usuarios, matrículas y asignaciones docentes.
-- El **docente** registre actividades, porcentajes, calificaciones y observaciones únicamente en sus asignaciones autorizadas.
-- El **estudiante** consulte sus notas publicadas, observaciones, promedios parciales y promedio final.
-- El sistema calcule dos parciales, cada uno con un peso del 50 % de la nota final.
-
-No incluye entrega de tareas, almacenamiento de archivos, videoconferencias ni edición de notas por parte de los estudiantes.
+Sistema web de gestión académica desarrollado con **Laravel 12, PHP 8.2+, MariaDB 10.4 / MySQL compatible, Blade y Bootstrap 5**, mediante la metodología **Spec as a Skill** (K-001 a K-012).
 
 ---
 
-## Requisitos del sistema
+## 1. Propósito y Alcance
 
-- **PHP**: 8.2 o superior (con extensiones pdo, pdo_mysql, mbstring, openssl)
-- **Composer**: 2.x
-- **Node.js**: 18+ / 22+ & npm
-- **Base de Datos**: Persistencia relacional mediante MySQL/MariaDB compatible. El entorno local utiliza MariaDB 10.4 con el controlador `mysql` de Laravel. No se utilizará SQLite.
+El sistema gestiona de forma integral el ciclo evaluativo escolar:
+- **Administrador:** Configuración del sistema, usuarios, oferta de cursos/asignaturas, matrículas, asignaciones docentes, monitoreo de auditoría y reapertura justificada de parciales. No puede ingresar ni modificar calificaciones directamente.
+- **Docente:** Gestión de actividades evaluativas (ponderación sumatoria al 100%), registro de calificaciones (0.00 a 10.00) y observaciones por parcial, vista previa y publicación oficial.
+- **Estudiante:** Consulta de calificaciones oficiales publicadas, observaciones, promedios parciales y promedio final. Acceso estricto protegido contra vulnerabilidades IDOR.
+- **Regla del 50%:** Todo período académico posee automáticamente 2 parciales (Parcial 1 y Parcial 2), cada uno con un peso exacto del 50.00% en la nota final de la asignatura.
 
 ---
 
-## Guía de Instalación y Ejecución Local
+## 2. Tecnologías y Stack
 
-### 1. Clonar o descargar el proyecto
+- **Framework Web:** Laravel 12.67 (PHP 8.2+)
+- **Base de Datos:** MariaDB 10.4 / MySQL Compatible (Persistencia Relacional)
+- **Frontend / Styling:** Vanilla CSS, Bootstrap 5.3, Vite 6
+- **Autenticación / Seguridad:** Laravel Auth (Session / Bcrypt), Middleware de Roles, Security Headers HTTP.
+- **Pruebas:** PHPUnit 11/12 con DB independiente `sistema_calificaciones_test`.
 
-Asegúrate de que los archivos principales residan en la raíz del repositorio:
-```text
-Sistema-de-Calificaciones/
-├── artisan
-├── app/
-├── database/
-├── resources/
-├── routes/
-├── PromptMaster.md
-├── Spec/
-└── Skill/
-```
+---
 
-### 2. Instalar dependencias de PHP y Node
+## 3. Guía de Instalación Rápida (Desarrollo Local)
+
+### 3.1 Clonar Repositorio e Instalar Dependencias
 
 ```bash
+git clone <URL_REPOSITORIO>
+cd Sistema-de-Calificaciones
 composer install
 npm install
 ```
 
-### 3. Configuración de Entorno (.env)
+### 3.2 Configurar Entorno (`.env`)
 
-Copia el archivo `.env.example` a `.env` y configura el acceso a MySQL/MariaDB:
+Copiar el archivo de plantilla:
 
-```ini
-APP_NAME="Sistema de Calificaciones"
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_TIMEZONE=America/Guayaquil
-APP_URL=http://localhost
-
-APP_LOCALE=es
-APP_FALLBACK_LOCALE=es
-APP_FAKER_LOCALE=es_ES
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306  # Ajustar a tu puerto MySQL/MariaDB (ej. 3307 en XAMPP si aplica)
-DB_DATABASE=sistema_calificaciones
-DB_USERNAME=root
-DB_PASSWORD=
-DB_CHARSET=utf8mb4
-DB_COLLATION=utf8mb4_unicode_ci
-```
-
-Genera la clave de la aplicación:
 ```bash
+copy .env.example .env
 php artisan key:generate
 ```
 
-### 4. Preparar Bases de Datos MySQL / MariaDB
+Asegurarse de tener configurada la conexión a MariaDB/MySQL en `.env`:
 
-Crea las bases de datos principal y de pruebas:
+```ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sistema_calificaciones
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 3.3 Bases de Datos y Siembra Local
+
+Crear las bases de datos en MariaDB/MySQL:
 
 ```sql
 CREATE DATABASE sistema_calificaciones CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE sistema_calificaciones_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-### 5. Ejecutar Migraciones y Seeders
+Ejecutar migraciones y datos demostrativos:
 
 ```bash
-php artisan config:clear
 php artisan migrate
 php artisan db:seed
-```
-
-### 6. Compilar Assets (Vite + Bootstrap 5)
-
-```bash
 npm run build
+php artisan serve
 ```
 
-Para desarrollo en vivo:
+Navegar a `http://127.0.0.1:8000`.
+
+---
+
+## 4. Credenciales de Prueba (Entorno Local / Testing)
+
+| Rol | Correo Electrónico | Contraseña | Estado |
+| :--- | :--- | :--- | :--- |
+| **Administrador** | `admin@calificaciones.local` | `Password123!` | Activo |
+| **Docente 1** | `docente@calificaciones.local` | `Password123!` | Activo |
+| **Docente 2** | `docente2@calificaciones.local` | `Password123!` | Activo |
+| **Estudiante 1** | `estudiante1@calificaciones.local` | `Password123!` | Activo |
+| **Estudiante Demo** | `estudiante@calificaciones.local` | `Password123!` | Activo |
+| **Usuario Inactivo** | `inactivo@calificaciones.local` | `Password123!` | Inactivo |
+
+> **ADVERTENCIA DE SEGURIDAD:** Los seeders de datos demostrativos están **bloqueados y deshabilitados en entorno de producción** (`APP_ENV=production`) para prevenir la creación de credenciales conocidas en servidores reales.
+
+---
+
+## 5. Despliegue en Producción y Creación Inicial de Administrador
+
+### 5.1 Ajustes de Producción
+
+En el servidor de producción:
+1. Configurar `.env` con `APP_ENV=production` y `APP_DEBUG=false`.
+2. Ejecutar las migraciones de base de datos de forma forzada:
+   ```bash
+   php artisan migrate --force
+   ```
+
+### 5.2 Comando CLI Seguro para Administrador Inicial
+
+Para dar de alta al primer usuario administrador sin usar seeders ficticios:
+
 ```bash
-npm run dev
+php artisan app:create-admin
 ```
 
-### 7. Ejecutar Pruebas Automatizadas (MariaDB / MySQL Dedicated)
+El comando solicitará de forma interactiva e implícita:
+- Nombre completo del administrador.
+- Correo electrónico válido y no registrado.
+- Contraseña (mínimo 8 caracteres, entrada oculta).
+
+---
+
+## 6. Fórmulas de Cálculo Académico
+
+El sistema **no almacena promedios en la base de datos**. Todos los promedios son derivados dinámicamente:
+
+1. **Promedio de Parcial (Docente / Estudiante):**
+   $$\text{Promedio Parcial} = \sum \left( \text{Nota Actividad} \times \frac{\text{Porcentaje Actividad}}{100} \right)$$
+2. **Promedio Final de Asignatura:**
+   $$\text{Promedio Final} = (\text{Promedio P1} \times 0.50) + (\text{Promedio P2} \times 0.50)$$
+3. **Promedio General del Período:**
+   $$\text{Promedio General} = \frac{\sum \text{Promedio Final Asignaturas}}{\text{Total Asignaturas Matriculadas}}$$
+
+Todas las notas se expresan con precisión de 2 decimales y rango válido entre `0.00` y `10.00`.
+
+---
+
+## 7. Pruebas Automatizadas y Calidad
+
+Para ejecutar la suite completa de pruebas (142 pruebas en verde, 485 aserciones):
 
 ```bash
 php artisan test
 ```
 
-### 8. Iniciar el Servidor de Desarrollo
+Para verificar formato de código con Laravel Pint:
 
 ```bash
-php artisan serve
+vendor/bin/pint --test
 ```
 
-Navega a `http://127.0.0.1:8000`.
+Para verificar auditoría de dependencias:
 
----
-
-## Usuarios y Credenciales Demo (Entorno Local Exclusivo)
-
-Tras ejecutar `php artisan db:seed`, se encuentran disponibles las siguientes cuentas de prueba:
-
-| Rol | Correo Electrónico | Contraseña | Estado |
-|---|---|---|---|
-| **Administrador** | `admin@calificaciones.local` | `Password123!` | Activo |
-| **Docente** | `docente@calificaciones.local` | `Password123!` | Activo |
-| **Estudiante** | `estudiante@calificaciones.local` | `Password123!` | Activo |
-| **Prueba Inactivo** | `inactivo@calificaciones.local` | `Password123!` | Inactivo |
-
----
-
-## Reglas de Cálculo Académico
-
-Dentro de cada parcial, las actividades de una asignatura deben sumar exactamente 100 %.
-
-```text
-promedio_parcial = Σ(nota_actividad × porcentaje_actividad / 100)
-promedio_final   = (promedio_parcial_1 × 0.50) + (promedio_parcial_2 × 0.50)
+```bash
+composer validate --strict
+composer audit
+npm audit --omit=dev
 ```
 
-Las notas aceptadas están entre `0.00` y `10.00` y se presentan redondeadas a dos decimales.
-
 ---
 
-## Estado de Desarrollo (Skill actual)
+## 8. Documentación del Proyecto (`docs/`)
 
-- **Skills completadas:**
-  - `K-001 — Inicializar Laravel y entorno`
-  - `K-002 — Autenticación, roles y autorización base`
-- **Siguiente Skill:** `K-003 — Gestión administrativa de usuarios`
+- [`docs/TRACEABILITY.md`](docs/TRACEABILITY.md): Matriz de trazabilidad de requisitos (RF-001 a RF-036).
+- [`docs/QA_REPORT.md`](docs/QA_REPORT.md): Informe de aseguramiento de calidad y revisión de DB.
+- [`docs/SECURITY_REVIEW.md`](docs/SECURITY_REVIEW.md): Revisión de seguridad OWASP y cabeceras HTTP.
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md): Guía paso a paso para despliegue en servidores web.
+- [`docs/ACCEPTANCE_TESTS.md`](docs/ACCEPTANCE_TESTS.md): Flujos de prueba de aceptación por rol.

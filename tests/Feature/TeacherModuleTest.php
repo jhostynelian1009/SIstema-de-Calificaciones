@@ -8,7 +8,6 @@ use App\Models\AcademicPeriod;
 use App\Models\Activity;
 use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\Grade;
 use App\Models\Partial;
 use App\Models\PartialPublication;
 use App\Models\Subject;
@@ -139,7 +138,7 @@ class TeacherModuleTest extends TestCase
             ->where('partial_id', $partial->id)
             ->first();
 
-        if (!$activity) {
+        if (! $activity) {
             $activity = Activity::create([
                 'teaching_assignment_id' => $assignment->id,
                 'partial_id' => $partial->id,

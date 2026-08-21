@@ -21,7 +21,7 @@ class AuditLogController extends Controller
         $query = AuditLog::with('user');
 
         if ($request->filled('action')) {
-            $query->where('action', 'like', '%' . $request->input('action') . '%');
+            $query->where('action', 'like', '%'.$request->input('action').'%');
         }
 
         if ($request->filled('user_id')) {
@@ -29,7 +29,7 @@ class AuditLogController extends Controller
         }
 
         if ($request->filled('auditable_type')) {
-            $query->where('auditable_type', 'like', '%' . $request->input('auditable_type') . '%');
+            $query->where('auditable_type', 'like', '%'.$request->input('auditable_type').'%');
         }
 
         if ($request->filled('date_from')) {

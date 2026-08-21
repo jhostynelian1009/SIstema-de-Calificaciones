@@ -14,6 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        if (! app()->environment('local', 'testing')) {
+            $this->command?->warn('Los seeders de datos demostrativos se encuentran deshabilitados en producción.');
+
+            return;
+        }
+
         $passwordHash = Hash::make('Password123!');
 
         // Administrator

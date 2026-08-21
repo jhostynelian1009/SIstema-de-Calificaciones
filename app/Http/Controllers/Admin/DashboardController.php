@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AcademicPeriod;
 use App\Services\Admin\AdminDashboardService;
 use Illuminate\View\View;
 
@@ -26,7 +27,7 @@ class DashboardController extends Controller
         $coursesCount = $metrics['structure']['active_courses'];
         $subjectsCount = $metrics['structure']['active_subjects'];
         $activePeriod = $metrics['structure']['active_period'];
-        $periodsCount = \App\Models\AcademicPeriod::count();
+        $periodsCount = AcademicPeriod::count();
         $usersCount = $metrics['users']['total_users'];
         $activeEnrollmentsCount = $metrics['structure']['active_enrollments'];
         $activeAssignmentsCount = $metrics['structure']['active_assignments'];

@@ -14,6 +14,7 @@ use InvalidArgumentException;
 class PartialPublicationService
 {
     protected PartialReadinessService $readinessService;
+
     protected AuditService $auditService;
 
     public function __construct(

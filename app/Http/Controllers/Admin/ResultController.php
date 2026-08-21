@@ -9,7 +9,6 @@ use App\Models\AcademicPeriod;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Partial;
-use App\Models\PartialPublication;
 use App\Models\Subject;
 use App\Models\TeachingAssignment;
 use App\Models\User;
@@ -21,7 +20,9 @@ use Illuminate\Http\Request;
 class ResultController extends Controller
 {
     protected PublishedResultsService $publishedResultsService;
+
     protected GradeCalculationService $calculationService;
+
     protected PartialReadinessService $readinessService;
 
     public function __construct(
@@ -92,7 +93,7 @@ class ResultController extends Controller
 
         foreach ($enrollments as $enrollment) {
             $student = $enrollment->student;
-            if (!$student || !$student->active) {
+            if (! $student || ! $student->active) {
                 continue;
             }
 

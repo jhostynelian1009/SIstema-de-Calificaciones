@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -36,7 +36,7 @@ class PasswordResetTest extends TestCase
         ]);
 
         $response->assertRedirect('/dashboard');
-        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('new-secure-password!1', $user->fresh()->password));
+        $this->assertTrue(Hash::check('new-secure-password!1', $user->fresh()->password));
     }
 
     public function test_invalid_token_is_rejected(): void

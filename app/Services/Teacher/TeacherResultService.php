@@ -5,19 +5,19 @@ namespace App\Services\Teacher;
 use App\Enums\PublicationStatus;
 use App\Models\Enrollment;
 use App\Models\Partial;
-use App\Models\PartialPublication;
 use App\Models\TeachingAssignment;
 use App\Models\User;
 use App\Services\Grades\GradeCalculationService;
 use App\Services\Grades\PartialReadinessService;
 use App\Services\Grades\PublishedResultsService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class TeacherResultService
 {
     protected GradeCalculationService $calcService;
+
     protected PartialReadinessService $readinessService;
+
     protected PublishedResultsService $publishedResultsService;
 
     public function __construct(
@@ -53,7 +53,7 @@ class TeacherResultService
         if ($search) {
             $enrollmentQuery->whereHas('student', function ($sq) use ($search) {
                 $sq->where('name', 'like', "%{$search}%")
-                   ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -62,7 +62,7 @@ class TeacherResultService
         $rows = [];
         foreach ($enrollments as $enrollment) {
             $student = $enrollment->student;
-            if (!$student) {
+            if (! $student) {
                 continue;
             }
 
@@ -167,7 +167,7 @@ class TeacherResultService
         $rows = [];
         foreach ($enrollments as $enrollment) {
             $student = $enrollment->student;
-            if (!$student) {
+            if (! $student) {
                 continue;
             }
 

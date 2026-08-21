@@ -25,7 +25,7 @@ class UserService
      */
     public function createUser(array $data, User $actor): User
     {
-        return DB::transaction(function () use ($data, $actor) {
+        return DB::transaction(function () use ($data) {
             $roleEnum = $data['role'] instanceof UserRole
                 ? $data['role']
                 : UserRole::from($data['role']);
@@ -121,6 +121,7 @@ class UserService
     {
         return DB::transaction(function () use ($targetUser, $actor) {
             $user = User::where('id', $targetUser->id)->lockForUpdate()->firstOrFail();
+
             return $this->toggleStatusInternal($user, $actor);
         });
     }
@@ -169,6 +170,7 @@ class UserService
         return DB::transaction(function () use ($targetUser, $newRole, $actor) {
             $user = User::where('id', $targetUser->id)->lockForUpdate()->firstOrFail();
             $roleEnum = $newRole instanceof UserRole ? $newRole : UserRole::from($newRole);
+
             return $this->changeRoleInternal($user, $roleEnum, $actor);
         });
     }

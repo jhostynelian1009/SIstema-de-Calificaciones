@@ -29,7 +29,7 @@ class EnrollmentController extends Controller
             $search = $request->input('search');
             $query->whereHas('student', function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 

@@ -21,7 +21,9 @@ use Illuminate\Http\Request;
 class PartialPublicationController extends Controller
 {
     protected PartialPublicationService $publicationService;
+
     protected PartialReadinessService $readinessService;
+
     protected GradeCalculationService $calculationService;
 
     public function __construct(

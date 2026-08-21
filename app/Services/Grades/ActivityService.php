@@ -13,7 +13,6 @@ use InvalidArgumentException;
 
 class ActivityService
 {
-
     /**
      * Convert percentage decimal string/float to integer hundredths (units).
      * 25.50 % => 2550 units
@@ -44,12 +43,12 @@ class ActivityService
             throw new InvalidArgumentException("El parcial (P{$partial->number}) no pertenece al período académico de la asignación docente.");
         }
 
-        if (!in_array((int) $partial->number, [1, 2], true)) {
-            throw new InvalidArgumentException("El parcial debe ser P1 o P2.");
+        if (! in_array((int) $partial->number, [1, 2], true)) {
+            throw new InvalidArgumentException('El parcial debe ser P1 o P2.');
         }
 
         if ((float) $partial->weight !== 50.00) {
-            throw new InvalidArgumentException("El parcial debe poseer un peso de 50.00%.");
+            throw new InvalidArgumentException('El parcial debe poseer un peso de 50.00%.');
         }
     }
 
@@ -65,7 +64,7 @@ class ActivityService
             ->lockForUpdate()
             ->first();
 
-        if (!$publicationState) {
+        if (! $publicationState) {
             // Fallback: Ensure publication state row exists
             app(PartialPublicationStateService::class)->ensureForAssignment($assignment);
             $publicationState = PartialPublication::where('teaching_assignment_id', $assignment->id)
@@ -75,7 +74,7 @@ class ActivityService
         }
 
         if ($publicationState->status === PublicationStatus::Published) {
-            throw new InvalidArgumentException("No se pueden crear ni modificar actividades en un parcial que se encuentra publicado.");
+            throw new InvalidArgumentException('No se pueden crear ni modificar actividades en un parcial que se encuentra publicado.');
         }
 
         return $publicationState;
@@ -89,12 +88,12 @@ class ActivityService
     public function createActivity(TeachingAssignment $assignment, Partial $partial, array $data, User $teacher): Activity
     {
         return DB::transaction(function () use ($assignment, $partial, $data, $teacher) {
-            if (!$teacher->isAdmin() && (int) $assignment->teacher_id !== (int) $teacher->id) {
-                throw new InvalidArgumentException("No está autorizado para gestionar actividades en esta asignación docente.");
+            if (! $teacher->isAdmin() && (int) $assignment->teacher_id !== (int) $teacher->id) {
+                throw new InvalidArgumentException('No está autorizado para gestionar actividades en esta asignación docente.');
             }
 
-            if (!$assignment->active) {
-                throw new InvalidArgumentException("No se pueden registrar actividades en una asignación docente inactiva.");
+            if (! $assignment->active) {
+                throw new InvalidArgumentException('No se pueden registrar actividades en una asignación docente inactiva.');
             }
 
             $this->validateCoherence($assignment, $partial);
@@ -102,7 +101,7 @@ class ActivityService
 
             $percentageUnits = $this->percentageToUnits($data['percentage']);
             if ($percentageUnits <= 0 || $percentageUnits > 10000) {
-                throw new InvalidArgumentException("El porcentaje de la actividad debe ser mayor que 0.00% y menor o igual que 100.00%.");
+                throw new InvalidArgumentException('El porcentaje de la actividad debe ser mayor que 0.00% y menor o igual que 100.00%.');
             }
 
             // Calculate current total active units for this assignment & partial
@@ -115,7 +114,7 @@ class ActivityService
             }
 
             // Validate due date if provided
-            if (!empty($data['due_date'])) {
+            if (! empty($data['due_date'])) {
                 $this->validateDueDate($data['due_date'], $assignment->academicPeriod);
             }
 
@@ -142,19 +141,19 @@ class ActivityService
             $assignment = $activity->teachingAssignment;
             $partial = $activity->partial;
 
-            if (!$teacher->isAdmin() && (int) $assignment->teacher_id !== (int) $teacher->id) {
-                throw new InvalidArgumentException("No está autorizado para modificar esta actividad.");
+            if (! $teacher->isAdmin() && (int) $assignment->teacher_id !== (int) $teacher->id) {
+                throw new InvalidArgumentException('No está autorizado para modificar esta actividad.');
             }
 
-            if (!$assignment->active) {
-                throw new InvalidArgumentException("No se pueden modificar actividades de una asignación inactiva.");
+            if (! $assignment->active) {
+                throw new InvalidArgumentException('No se pueden modificar actividades de una asignación inactiva.');
             }
 
             $this->lockAndVerifyPublicationStatus($assignment, $partial);
 
             $newUnits = $this->percentageToUnits($data['percentage']);
             if ($newUnits <= 0 || $newUnits > 10000) {
-                throw new InvalidArgumentException("El porcentaje de la actividad debe ser mayor que 0.00% y menor o igual que 100.00%.");
+                throw new InvalidArgumentException('El porcentaje de la actividad debe ser mayor que 0.00% y menor o igual que 100.00%.');
             }
 
             // Sum all other active activities
@@ -172,7 +171,7 @@ class ActivityService
                 throw new InvalidArgumentException("La suma de porcentajes de las actividades activas no puede superar el 100.00%. Porcentaje disponible: {$remainingDecimal}%.");
             }
 
-            if (!empty($data['due_date'])) {
+            if (! empty($data['due_date'])) {
                 $this->validateDueDate($data['due_date'], $assignment->academicPeriod);
             }
 
@@ -198,17 +197,17 @@ class ActivityService
             $assignment = $activity->teachingAssignment;
             $partial = $activity->partial;
 
-            if (!$teacher->isAdmin() && (int) $assignment->teacher_id !== (int) $teacher->id) {
-                throw new InvalidArgumentException("No está autorizado para cambiar el estado de esta actividad.");
+            if (! $teacher->isAdmin() && (int) $assignment->teacher_id !== (int) $teacher->id) {
+                throw new InvalidArgumentException('No está autorizado para cambiar el estado de esta actividad.');
             }
 
-            if (!$assignment->active) {
-                throw new InvalidArgumentException("No se puede cambiar el estado de actividades en una asignación inactiva.");
+            if (! $assignment->active) {
+                throw new InvalidArgumentException('No se puede cambiar el estado de actividades en una asignación inactiva.');
             }
 
             $this->lockAndVerifyPublicationStatus($assignment, $partial);
 
-            if (!$activity->active) {
+            if (! $activity->active) {
                 // Reactivating activity: check if adding its percentage exceeds 10000 units
                 $currentActiveUnits = $this->calculateTotalActiveUnits($assignment->id, $partial->id);
                 $activityUnits = $this->percentageToUnits($activity->percentage);
@@ -221,7 +220,7 @@ class ActivityService
             }
 
             $activity->update([
-                'active' => !$activity->active,
+                'active' => ! $activity->active,
             ]);
 
             return $activity->fresh();
@@ -295,7 +294,7 @@ class ActivityService
      */
     protected function validateDueDate(string $dueDate, $period): void
     {
-        if (!$period) {
+        if (! $period) {
             return;
         }
 

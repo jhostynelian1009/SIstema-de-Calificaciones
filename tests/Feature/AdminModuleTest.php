@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\PublicationStatus;
 use App\Enums\UserRole;
 use App\Models\AcademicPeriod;
 use App\Models\AuditLog;
@@ -19,7 +18,9 @@ class AdminModuleTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected User $teacher;
+
     protected User $student;
 
     protected function setUp(): void
