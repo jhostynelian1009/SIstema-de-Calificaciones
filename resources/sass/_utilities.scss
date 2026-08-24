@@ -1,0 +1,57 @@
+// Utility Classes
+
+.text-brand-inst { color: $brand-inst !important; }
+.text-brand-primary { color: $brand-primary !important; }
+.text-brand-teal { color: $brand-teal !important; }
+.text-brand-purple { color: $brand-purple !important; }
+
+.bg-brand-inst { background-color: $brand-inst !important; }
+.bg-brand-light { background-color: $brand-light !important; }
+
+.font-monospace-score {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+// User Avatar Badge
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $brand-primary 0%, $brand-purple 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Score Badges & Grade Status Pill
+.grade-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+
+  &.status-aprobado {
+    background-color: rgba(22, 163, 74, 0.12);
+    color: #15803D;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+  }
+
+  &.status-supletorio {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: #B45309;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+
+  &.status-reprobado {
+    background-color: rgba(220, 38, 38, 0.12);
+    color: #B91C1C;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+  }
+}

@@ -1,0 +1,271 @@
+// Component Styling
+
+// Cards & Surfaces
+.card {
+  background-color: $card-bg;
+  border: 1px solid $card-border-color;
+  border-radius: $card-border-radius;
+  box-shadow: $card-box-shadow;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+
+  .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid $brand-border;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+// Interactive Metric Cards
+.stat-card {
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid $brand-border;
+  box-shadow: 0 4px 16px rgba(17, 24, 39, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  }
+
+  .stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+
+    &.primary {
+      background-color: rgba(37, 99, 235, 0.1);
+      color: $brand-primary;
+    }
+    &.teal {
+      background-color: rgba(15, 159, 143, 0.1);
+      color: $brand-teal;
+    }
+    &.purple {
+      background-color: rgba(124, 58, 237, 0.1);
+      color: $brand-purple;
+    }
+    &.amber {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: $brand-amber;
+    }
+    &.green {
+      background-color: rgba(22, 163, 74, 0.1);
+      color: $brand-green;
+    }
+    &.red {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: $brand-red;
+    }
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $brand-text-muted;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-value {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: $brand-text;
+    line-height: 1.1;
+  }
+
+  .stat-desc {
+    font-size: 0.78rem;
+    color: $brand-text-muted;
+    margin-top: 0.35rem;
+  }
+}
+
+// Custom Badges
+.badge {
+  font-weight: 600;
+  padding: 0.4em 0.75em;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+
+  &.bg-primary-subtle {
+    background-color: rgba(37, 99, 235, 0.12) !important;
+    color: #1D4ED8 !important;
+  }
+  &.bg-success-subtle {
+    background-color: rgba(22, 163, 74, 0.12) !important;
+    color: #15803D !important;
+  }
+  &.bg-warning-subtle {
+    background-color: rgba(245, 158, 11, 0.12) !important;
+    color: #B45309 !important;
+  }
+  &.bg-danger-subtle {
+    background-color: rgba(220, 38, 38, 0.12) !important;
+    color: #B91C1C !important;
+  }
+  &.bg-info-subtle {
+    background-color: rgba(15, 159, 143, 0.12) !important;
+    color: #0D7A6E !important;
+  }
+  &.bg-secondary-subtle {
+    background-color: rgba(100, 116, 139, 0.12) !important;
+    color: #475569 !important;
+  }
+}
+
+// Page Header Block
+.page-header {
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page-header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $brand-text;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .page-header-subtitle {
+    font-size: 0.88rem;
+    color: $brand-text-muted;
+    margin: 0;
+  }
+}
+
+// Breadcrumb
+.breadcrumb {
+  margin-bottom: 0.5rem;
+  font-size: 0.82rem;
+
+  .breadcrumb-item {
+    a {
+      color: $brand-text-muted;
+      text-decoration: none;
+      transition: color 150ms ease;
+
+      &:hover {
+        color: $brand-primary;
+      }
+    }
+
+    &.active {
+      color: $brand-text;
+      font-weight: 600;
+    }
+  }
+}
+
+// Empty State Component
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+
+  .empty-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: rgba(37, 99, 235, 0.08);
+    color: $brand-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin: 0 auto 1.25rem auto;
+  }
+
+  .empty-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: $brand-text;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-text {
+    font-size: 0.88rem;
+    color: $brand-text-muted;
+    max-width: 420px;
+    margin: 0 auto 1.5rem auto;
+  }
+}
+
+// Buttons
+.btn {
+  font-weight: 600;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 150ms ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.btn-primary {
+    background-color: $brand-primary;
+    border-color: $brand-primary;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+
+    &:hover, &:focus {
+      background-color: #1D4ED8;
+      border-color: #1D4ED8;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+  }
+
+  &.btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+// Modals
+.modal-content {
+  border-radius: 0.88rem;
+  border: 1px solid $brand-border;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+
+  .modal-header {
+    border-bottom: 1px solid $brand-border;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .modal-footer {
+    border-top: 1px solid $brand-border;
+    padding: 1rem 1.5rem;
+  }
+}
+
+// Toasts Container
+.toast-container {
+  z-index: 1090;
+}

@@ -1,7 +1,48 @@
-// Body
-$body-bg: #f8fafc;
+// Academic Design System Variables
 
-// Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+// Palette
+$brand-inst: #1E3A5F;
+$brand-primary: #2563EB;
+$brand-light: #DBEAFE;
+$brand-teal: #0F9F8F;
+$brand-purple: #7C3AED;
+$brand-amber: #F59E0B;
+$brand-green: #16A34A;
+$brand-red: #DC2626;
+$brand-bg: #F4F7FB;
+$brand-surface: #FFFFFF;
+$brand-text: #172033;
+$brand-text-muted: #64748B;
+$brand-border: #DDE5EF;
+
+// Bootstrap Overrides
+$primary: $brand-primary;
+$secondary: $brand-text-muted;
+$success: $brand-green;
+$info: $brand-teal;
+$warning: $brand-amber;
+$danger: $brand-red;
+$dark: $brand-inst;
+$light: $brand-light;
+
+$body-bg: $brand-bg;
+$body-color: $brand-text;
+$border-color: $brand-border;
+
+$card-bg: $brand-surface;
+$card-border-color: $brand-border;
+$card-border-radius: 0.75rem;
+$card-box-shadow: 0 4px 16px rgba(17, 24, 39, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+
+$btn-border-radius: 0.5rem;
+$input-border-radius: 0.5rem;
+$input-border-color: $brand-border;
+$input-focus-border-color: $brand-primary;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+
+$badge-border-radius: 1rem;
+
+$sidebar-width: 260px;
+$topbar-height: 64px;
+
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;

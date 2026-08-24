@@ -1,0 +1,93 @@
+// Form Styling
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: $brand-text;
+  margin-bottom: 0.35rem;
+
+  .text-danger {
+    margin-left: 2px;
+  }
+}
+
+.form-control, .form-select {
+  border: 1px solid $brand-border;
+  border-radius: $input-border-radius;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  color: $brand-text;
+  background-color: #FFFFFF;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+
+  &:focus {
+    border-color: $brand-primary;
+    box-shadow: $input-focus-box-shadow;
+  }
+
+  &::placeholder {
+    color: #94A3B8;
+  }
+}
+
+.form-text {
+  font-size: 0.78rem;
+  color: $brand-text-muted;
+  margin-top: 0.3rem;
+}
+
+// Input Group Icons
+.input-group {
+  .input-group-text {
+    background-color: #F8FAFC;
+    border: 1px solid $brand-border;
+    color: $brand-text-muted;
+    font-size: 0.95rem;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  &:focus-within {
+    .input-group-text {
+      border-color: $brand-primary;
+      color: $brand-primary;
+    }
+  }
+}
+
+// Validation feedback
+.invalid-feedback {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 0.3rem;
+}
+
+// Form Section Block
+.form-section {
+  background-color: #FFFFFF;
+  border: 1px solid $brand-border;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  .form-section-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid $brand-border;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    i {
+      font-size: 1.25rem;
+      color: $brand-primary;
+    }
+
+    h6 {
+      font-weight: 700;
+      font-size: 1rem;
+      color: $brand-text;
+      margin: 0;
+    }
+  }
+}

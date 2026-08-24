@@ -1,0 +1,52 @@
+// Print Stylesheet (@media print)
+
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  .app-sidebar,
+  .app-topbar,
+  .btn,
+  .breadcrumb,
+  .alert,
+  .filter-card,
+  .pagination,
+  .offcanvas,
+  .no-print,
+  footer {
+    display: none !important;
+  }
+
+  .app-main {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .card {
+    border: 1px solid #CCCCCC !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  .table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+
+    th, td {
+      border: 1px solid #000000 !important;
+      color: #000000 !important;
+      padding: 6px 8px !important;
+      background: transparent !important;
+    }
+  }
+
+  .badge, .grade-pill {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+    background: transparent !important;
+  }
+}

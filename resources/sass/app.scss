@@ -1,8 +1,20 @@
-// Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// Google / Bunny Fonts
+@import url('https://fonts.bunny.net/css?family=Inter:wght@400;500;600;700&display=swap');
 
-// Variables
+// Design System Variables & Overrides
 @import 'variables';
 
-// Bootstrap
+// Bootstrap Framework
 @import 'bootstrap/scss/bootstrap';
+
+// Bootstrap Icons (via npm)
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Modular Theme Components
+@import 'layout';
+@import 'components';
+@import 'forms';
+@import 'tables';
+@import 'animations';
+@import 'utilities';
+@import 'print';
